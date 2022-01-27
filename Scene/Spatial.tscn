@@ -1,16 +1,22 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Meshes/testCylinder.fbx" type="PackedScene" id=1]
 [ext_resource path="res://Meshes/testPlane.fbx" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/BashBot.gd" type="Script" id=3]
 
 [node name="Scene" type="Spatial"]
 
-[node name="Plane" parent="." instance=ExtResource( 2 )]
+[node name="Plane" type="RigidBody" parent="."]
+mode = 1
+gravity_scale = 0.0
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 [node name="BashBot" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30446, 0 )
 =======
+=======
+>>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 [node name="testPlane" parent="Plane" instance=ExtResource( 2 )]
 transform = Transform( 1.2, 0, 0, 0, 1, 0, 0, 0, 1.2, 0, 0, 0 )
 
@@ -19,7 +25,10 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0,
 polygon = PoolVector2Array( 9.77232, -9.90924, 9.86683, 9.92378, -9.85929, 9.79469, -9.8597, -9.85574 )
 
 [node name="Cylinder" type="RigidBody" parent="."]
+<<<<<<< HEAD
 mass = 5.0
+=======
+>>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 script = ExtResource( 3 )
 
 [node name="testCylinder" parent="Cylinder" instance=ExtResource( 1 )]
@@ -30,5 +39,9 @@ transform = Transform( 0.98442, 0, 0, 0, -2.29173e-08, -0.524287, 0, 0.965981, -
 polygon = PoolVector2Array( -0.105741, -1.38569, 1.14689, 0.013623, -0.256681, 1.53514, -1.5085, -0.160244 )
 
 [node name="Camera" type="Camera" parent="."]
+<<<<<<< HEAD
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8.79676, 8.34994 )
 >>>>>>> Stashed changes
+=======
+transform = Transform( 1, 0, 0, 0, 0.853078, 0.521784, 0, -0.521784, 0.853078, 0, 6.06916, 8.34994 )
+>>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
