@@ -5,7 +5,26 @@
 
 [node name="Scene" type="Spatial"]
 
-[node name="Plane" parent="." instance=ExtResource( 2 )]
+[node name="Plane" type="RigidBody" parent="."]
+mode = 1
+gravity_scale = 0.0
 
-[node name="BashBot" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30446, 0 )
+[node name="testPlane" parent="Plane" instance=ExtResource( 2 )]
+transform = Transform( 1.2, 0, 0, 0, 1, 0, 0, 0, 1.2, 0, 0, 0 )
+
+[node name="CollisionPolygon" type="CollisionPolygon" parent="Plane"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0 )
+polygon = PoolVector2Array( 9.77232, -9.90924, 9.86683, 9.92378, -9.85929, 9.79469, -9.8597, -9.85574 )
+
+[node name="Cylinder" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.05105, 0 )
+
+[node name="testCylinder" parent="Cylinder" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
+
+[node name="CollisionPolygon" type="CollisionPolygon" parent="Cylinder"]
+transform = Transform( 0.98442, 0, 0, 0, -2.29173e-08, -0.524287, 0, 0.965981, -4.22244e-08, 0.16696, 0.285705, 0.0342631 )
+polygon = PoolVector2Array( -0.105741, -1.38569, 1.14689, 0.013623, -0.256681, 1.53514, -1.5085, -0.160244 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.853078, 0.521784, 0, -0.521784, 0.853078, 0, 6.06916, 8.34994 )
