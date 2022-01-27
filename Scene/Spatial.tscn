@@ -11,10 +11,13 @@ mode = 1
 gravity_scale = 0.0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 [node name="BashBot" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30446, 0 )
 =======
+=======
+>>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 =======
 >>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 [node name="testPlane" parent="Plane" instance=ExtResource( 2 )]
@@ -26,7 +29,10 @@ polygon = PoolVector2Array( 9.77232, -9.90924, 9.86683, 9.92378, -9.85929, 9.794
 
 [node name="Cylinder" type="RigidBody" parent="."]
 <<<<<<< HEAD
+<<<<<<< HEAD
 mass = 5.0
+=======
+>>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 =======
 >>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 script = ExtResource( 3 )
@@ -40,8 +46,12 @@ polygon = PoolVector2Array( -0.105741, -1.38569, 1.14689, 0.013623, -0.256681, 1
 
 [node name="Camera" type="Camera" parent="."]
 <<<<<<< HEAD
+<<<<<<< HEAD
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8.79676, 8.34994 )
 >>>>>>> Stashed changes
+=======
+transform = Transform( 1, 0, 0, 0, 0.853078, 0.521784, 0, -0.521784, 0.853078, 0, 6.06916, 8.34994 )
+>>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
 =======
 transform = Transform( 1, 0, 0, 0, 0.853078, 0.521784, 0, -0.521784, 0.853078, 0, 6.06916, 8.34994 )
 >>>>>>> 38548a110cbbd34a042a3adaaa879a465c23774f
