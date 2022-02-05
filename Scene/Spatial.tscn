@@ -30,6 +30,9 @@ polygon = PoolVector2Array( 9.77232, -9.90924, 9.86683, 9.92378, -9.85929, 9.794
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 15.1812, -0.023 )
+
 [node name="Cylinder" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.181172, 0 )
 script = ExtResource( 3 )
@@ -43,6 +46,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231439, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
 material/0 = SubResource( 4 )
-
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.853078, 0.521784, 0, -0.521784, 0.853078, 0, 6.06916, 8.34994 )

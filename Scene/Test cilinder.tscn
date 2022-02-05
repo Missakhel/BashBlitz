@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Meshes/Test cilinder.fbx" type="PackedScene" id=1]
+[ext_resource path="res://Test cilinder.gd" type="Script" id=2]
+
+[node name="Test cilinder" instance=ExtResource( 1 )]
+transform = Transform( 1.05139, 0, 0, 0, 1.05139, 0, 0, 0, 1.05139, 0, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="pCylinder1" parent="RootNode" index="0"]
+transform = Transform( 33.2175, 0, 0, 0, 9.51177, 0, 0, 0, 33.2175, 0, 0.0100468, 0 )
+
+[node name="Camera" type="Camera" parent="RootNode" index="2"]
+transform = Transform( 0.951124, 0, 0, 0, 0.124624, -0.942924, 0, 0.942924, 0.124624, 0, 0.889221, 0 )
