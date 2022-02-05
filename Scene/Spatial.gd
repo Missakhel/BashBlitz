@@ -1,4 +1,5 @@
-extends RigidBody
+extends Spatial
+
 var ray_origin = Vector3()
 var ray_target = Vector3()
 
