@@ -2,17 +2,16 @@ extends KinematicBody
 
 export var speed = 150
 export var friction = 0.875
-export var gravity = 80
-export var extraVelMulti = 2500
+export var extraVelMulti = 5000
 
 var move_direction = Vector3()
 var vel = Vector3()
 
 var cursor_pos_global = Vector3.ZERO
 
-onready var camera = $Camera
 onready var cursor= $Cursor
 onready var globalCamera = get_node("/root/Arena/GlobalCamera")
+onready var camera = $Camera
 
 func _ready():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -27,7 +26,6 @@ func _physics_process(delta):
 	run(delta)
 	
 	vel *= friction
-	vel.y -= gravity*delta
 	vel = move_and_slide(vel, Vector3.UP, true, 3)
 	
 func camera_follows_player():
@@ -43,32 +41,28 @@ func look_at_cursor(delta):
 	var from = globalCamera.project_ray_origin(mouse_pos)
 	var to = from + globalCamera.project_ray_normal(mouse_pos) * rayLenght
 	var cursor_pos = dropPlane.intersects_ray(from,to)
-	
 	# Set the position of cursor visualizer
-	cursor.global_transform.origin = cursor_pos + Vector3(0,1,0)
-	
+	cursor.global_transform.origin = cursor_pos - Vector3(0,-1,0)
+	cursor_pos_global = cursor_pos
 	# Make player look at the cursor
 	look_at(cursor_pos, Vector3.UP)
 	#remove_child(cursor)
-	if Input.is_action_just_pressed("dash"):
-		var cursor_pos_normal = cursor_pos.normalized()
-		print(cursor_pos_normal)
-		vel+=cursor_pos_normal*extraVelMulti*delta
 
 func run(delta):
 	move_direction = Vector3()
-	var camera_basis = camera.get_global_transform().basis
-	
-
-
-	if Input.is_action_pressed("ui_down"):
-		move_direction -= camera_basis.z
-	elif Input.is_action_pressed("ui_up"):
-		move_direction += camera_basis.z
-	if Input.is_action_pressed("ui_right"):
-		move_direction -= camera_basis.x
-	elif Input.is_action_pressed("ui_left"):
-		move_direction += camera_basis.x
+	if Input.is_action_just_pressed("dash"):
+		var direction = cursor_pos_global - get_global_transform().origin
+		direction = direction.normalized()
+		vel+=direction*extraVelMulti*delta
+	else:
+		if Input.is_action_pressed("ui_down"):
+			vel.z+=speed*delta
+		elif Input.is_action_pressed("ui_up"):
+			vel.z-=speed*delta
+		if Input.is_action_pressed("ui_right"):
+			vel.x+=speed*delta
+		elif Input.is_action_pressed("ui_left"):
+			vel.x-=speed*delta
 	move_direction.y = 0
 	move_direction = move_direction.normalized()
 	vel += move_direction*speed*delta
