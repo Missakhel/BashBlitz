@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Textures/testCylinder.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/BashBot.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/LocalCamera.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Cursor.gd" type="Script" id=4]
+
+[sub_resource type="CylinderMesh" id=1]
+height = 0.5
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="CylinderShape" id=3]
+radius = 0.986564
+height = 0.228327
+
+[sub_resource type="PrismMesh" id=6]
+size = Vector3( 1.5, 2.5, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0, 0.623529, 1, 1 )
+
+[node name="BashBot" type="RigidBody"]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+linear_damp = 2.5
+angular_damp = 100.0
+script = ExtResource( 2 )
+dashImpulse = 15
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231439, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("")
+material/0 = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.352733, 0 )
+shape = SubResource( 3 )
+
+[node name="Cursor" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.231439, 0 )
+mesh = SubResource( 6 )
+skeleton = NodePath("../MeshInstance")
+material/0 = SubResource( 7 )
+script = ExtResource( 4 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 6.10664, 0 )
+projection = 1
+script = ExtResource( 3 )

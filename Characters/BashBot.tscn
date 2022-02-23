@@ -6,8 +6,8 @@
 [ext_resource path="res://Scripts/LocalCamera.gd" type="Script" id=4]
 
 [sub_resource type="CylinderShape" id=1]
-radius = 9.61199
-height = 5.5693
+radius = 9.95928
+height = 5.79341
 
 [sub_resource type="SpatialMaterial" id=3]
 albedo_texture = ExtResource( 3 )

@@ -14,7 +14,7 @@ onready var globalCamera = get_node("/root/Arena/GlobalCamera")
 onready var camera = $Camera
 
 func _ready():
-	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	pass
 
 func _input(event):
@@ -24,9 +24,8 @@ func _input(event):
 func _physics_process(delta):
 	look_at_cursor(delta)
 	run(delta)
-	
 	vel *= friction
-	vel = move_and_slide(vel, Vector3.UP, true, 3)
+	vel = move_and_slide(vel, Vector3.UP, false, 3, 0.0, true)
 	
 func camera_follows_player():
 	var playerPosition = global_transform.origin
@@ -46,7 +45,6 @@ func look_at_cursor(delta):
 	cursor_pos_global = cursor_pos
 	# Make player look at the cursor
 	look_at(cursor_pos, Vector3.UP)
-	#remove_child(cursor)
 
 func run(delta):
 	move_direction = Vector3()
