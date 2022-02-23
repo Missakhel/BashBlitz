@@ -2,10 +2,13 @@ extends KinematicBody
 
 export var speed = 150
 export var friction = 0.875
-export var extraVelMulti = 5000
+export var extraVelMulti = 4000
 
 var move_direction = Vector3()
 var vel = Vector3()
+
+var time= 0.5
+var del = 0
 
 var cursor_pos_global = Vector3.ZERO
 
@@ -48,7 +51,17 @@ func look_at_cursor(delta):
 
 func run(delta):
 	move_direction = Vector3()
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_pressed("dash"):
+		del+=delta
+		time+=del
+		print(time)
+		if time>=1.5 and extraVelMulti>=6000:
+			extraVelMulti = 6000
+			time = 1
+		print(extraVelMulti)
+		time = 1
+		
+	elif Input.is_action_just_released("dash"):
 		var direction = cursor_pos_global - get_global_transform().origin
 		direction = direction.normalized()
 		vel+=direction*extraVelMulti*delta
