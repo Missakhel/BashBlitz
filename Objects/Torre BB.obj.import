@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Torre BB.obj-280eefb56154bb88c0e86755d5085793.mesh"
+
+[deps]
+
+files=[ "res://.import/Torre BB.obj-280eefb56154bb88c0e86755d5085793.mesh" ]
+
+source_file="res://Objects/Torre BB.obj"
+dest_files=[ "res://.import/Torre BB.obj-280eefb56154bb88c0e86755d5085793.mesh", "res://.import/Torre BB.obj-280eefb56154bb88c0e86755d5085793.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

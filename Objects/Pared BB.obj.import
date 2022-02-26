@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Pared BB.obj-ce958bae36751a7cf1e0caf0359e839d.mesh"
+
+[deps]
+
+files=[ "res://.import/Pared BB.obj-ce958bae36751a7cf1e0caf0359e839d.mesh" ]
+
+source_file="res://Objects/Pared BB.obj"
+dest_files=[ "res://.import/Pared BB.obj-ce958bae36751a7cf1e0caf0359e839d.mesh", "res://.import/Pared BB.obj-ce958bae36751a7cf1e0caf0359e839d.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Suelo irregular BB.obj-014a357f72934d822f5bbefa4bc5a4c2.mesh"
+
+[deps]
+
+files=[ "res://.import/Suelo irregular BB.obj-014a357f72934d822f5bbefa4bc5a4c2.mesh" ]
+
+source_file="res://Objects/Suelo irregular BB.obj"
+dest_files=[ "res://.import/Suelo irregular BB.obj-014a357f72934d822f5bbefa4bc5a4c2.mesh", "res://.import/Suelo irregular BB.obj-014a357f72934d822f5bbefa4bc5a4c2.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
