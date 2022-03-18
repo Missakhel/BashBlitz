@@ -7,14 +7,14 @@ export var dampMultiplier = 5
 export var dashTime = 1.5
 export var dashDamp = 5
 
-var cursorPosition = Vector3.ZERO
-var dashCharge = 1
-var dashPercentage = 0
-
 onready var mesh = $MeshInstance
 onready var cursor = $Cursor
 onready var arrow = $MeshInstance/Arrow
 onready var camera = get_node("/root/Arena/GlobalCamera")
+
+var dashCharge = 1
+var dashPercentage = 0
+var cursorPosition = Vector3.ZERO
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -25,17 +25,16 @@ func run(_delta):
 	if linear_damp < movementDamp:
 		linear_damp += _delta*dampMultiplier
 
-	if Input.is_action_pressed("dash"):
+	if Input.is_action_pressed("pad_dash"):
 		linear_damp = dashDamp
 		if dashCharge <= dashTime:
 			dashCharge += _delta
 		dashPercentage = dashCharge * 1 / dashTime
 		arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 		
-	if Input.is_action_just_released("dash"):
+	if Input.is_action_just_released("pad_dash"):
 		linear_velocity = Vector3.ZERO
 		var direction = cursor.global_transform.origin - global_transform.origin
-		print(cursorPosition,", ",global_transform.origin,", keyboard")
 		direction = direction.normalized()
 		apply_central_impulse(direction*(dashPercentage*dashImpulse))
 		linear_damp = -1
@@ -43,34 +42,32 @@ func run(_delta):
 		arrow.set_scale(Vector3(1,.25,1))
 
 	else:
-		if Input.is_action_pressed("ui_left"):
+		if Input.get_action_strength("stick_left")>0:
 			linear_velocity.x -= speed*_delta
 			linear_damp = -1
-		if Input.is_action_pressed("ui_right"):
+		if Input.get_action_strength("stick_right")>0:
 			linear_velocity.x += speed*_delta
 			linear_damp = -1
-		if Input.is_action_pressed("ui_up"):
+		if Input.get_action_strength("stick_up")>0:
 			linear_velocity.z -= speed*_delta
 			linear_damp = -1
-		if Input.is_action_pressed("ui_down"):
+		if Input.get_action_strength("stick_down")>0:
 			linear_velocity.z += speed*_delta
 			linear_damp = -1
 
-func lookAtCursor(_delta):
-	var playerPosition = global_transform.origin
-	var dropPlane  = Plane(Vector3(0, 1, 0), playerPosition.y)
-	# Project a ray from camera, from where the mouse cursor is in 2D viewport
-	var rayLenght = 1000
-	var mouse_pos = get_viewport().get_mouse_position()
-	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * rayLenght
-	cursorPosition = dropPlane.intersects_ray(from,to)
-	# Set the position of cursor visualizer
-	cursorPosition = cursorPosition.normalized() * 2.5 + global_transform.origin
-	cursor.global_transform.origin = cursorPosition - Vector3(0,-1,0)
-	# Make player look at the cursor
-	mesh.look_at(cursorPosition, Vector3.UP)
+		if Input.get_action_strength("aim_left")>0:
+			cursorPosition.x -= Input.get_action_strength("aim_left")			
+		if Input.get_action_strength("aim_right")>0:
+			cursorPosition.x += Input.get_action_strength("aim_right")
+		if Input.get_action_strength("aim_up")>0:
+			cursorPosition.z -= Input.get_action_strength("aim_up")
+		if Input.get_action_strength("aim_down")>0:
+			cursorPosition.z += Input.get_action_strength("aim_down")
+		if cursorPosition != Vector3.ZERO:
+			cursorPosition = cursorPosition.normalized()
+			cursor.global_transform.origin = cursorPosition * 2.5 + global_transform.origin
+
+	mesh.look_at(cursor.global_transform.origin, Vector3.UP)
 
 func _physics_process(_delta):
 	run(_delta)
-	lookAtCursor(_delta)

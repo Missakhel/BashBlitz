@@ -1,14 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Characters/BashBotR.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Textures/Bash Blitz.jpg" type="Texture" id=2]
-[ext_resource path="res://Objects/Platform.obj" type="ArrayMesh" id=3]
-[ext_resource path="res://Objects/Tree.obj" type="ArrayMesh" id=4]
-[ext_resource path="res://Objects/Stem.obj" type="ArrayMesh" id=5]
-[ext_resource path="res://Objects/Wall.obj" type="ArrayMesh" id=6]
-[ext_resource path="res://Objects/lambert1.material" type="Material" id=7]
-[ext_resource path="res://Objects/lambert4.material" type="Material" id=9]
-[ext_resource path="res://Objects/lambert5.material" type="Material" id=10]
+[ext_resource path="res://Scripts/BashBotController.gd" type="Script" id=8]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 19.5, 19.5 )
@@ -32,7 +26,7 @@ mass = 50.0
 gravity_scale = 0.0
 
 [node name="MeshInstance" type="MeshInstance" parent="Plane"]
-transform = Transform( 16.8232, 0, 0, 0, 16.8232, 0, 0, 0, 16.8232, 0, -3.4304, 0 )
+transform = Transform( 16.8232, 0, 0, 0, 16.8232, 0, 0, 0, 16.8232, 0, -0.266507, 0 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
@@ -40,87 +34,18 @@ material/0 = SubResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.538755, 0 )
 shape = SubResource( 5 )
 
-[node name="Platform" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 0, -0.455942, 0 )
-use_collision = true
-mesh = ExtResource( 3 )
-material = ExtResource( 7 )
-
-[node name="Tree" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, -31.2921, 0, 30.6026 )
-use_collision = true
-mesh = ExtResource( 4 )
-material = ExtResource( 9 )
-
-[node name="Wall" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 0, 0, 0 )
-use_collision = true
-mesh = ExtResource( 6 )
-material = ExtResource( 7 )
-
-[node name="Stem" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 0, 0, 17.3042 )
-use_collision = true
-mesh = ExtResource( 5 )
-material = ExtResource( 10 )
-
-[node name="Tree2" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 170.542, 0, 10.1128 )
-use_collision = true
-mesh = ExtResource( 4 )
-material = ExtResource( 9 )
-
-[node name="Tree3" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, -66.0977, 0, 60.5309 )
-use_collision = true
-mesh = ExtResource( 4 )
-material = ExtResource( 9 )
-
-[node name="Tree4" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, -67.9012, 0, 121.062 )
-use_collision = true
-mesh = ExtResource( 4 )
-material = ExtResource( 9 )
-
-[node name="Tree5" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 189.408, 0, 70.496 )
-use_collision = true
-mesh = ExtResource( 4 )
-material = ExtResource( 9 )
-
-[node name="Stem2" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 128.032, 0, 22.5718 )
-use_collision = true
-mesh = ExtResource( 5 )
-material = ExtResource( 10 )
-
-[node name="Stem3" type="CSGMesh" parent="Plane"]
-transform = Transform( 9.26209, 0, 0, 0, 1.39726, 0, 0, 0, 8.84815, 183.196, 0, -7.1577 )
-use_collision = true
-mesh = ExtResource( 5 )
-material = ExtResource( 10 )
-
 [node name="BashBot" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.75264, 0.0220854, 0.870193 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.75264, 0.13049, 0.870193 )
 input_ray_pickable = false
-can_sleep = false
 dashImpulse = 25
-dampMult = 15
 
 [node name="BashBot2" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.02894, -8.15392e-05, 8.41827 )
-can_sleep = false
-axis_lock_linear_y = false
-axis_lock_angular_x = false
-axis_lock_angular_z = false
-script = null
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.02894, 0.0695772, 8.41827 )
+script = ExtResource( 8 )
+dashImpulse = 25
 
 [node name="BashBot3" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.76961, 0.249132, 6.32687 )
-can_sleep = false
-axis_lock_linear_y = false
-axis_lock_angular_x = false
-axis_lock_angular_z = false
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.76961, 0.306673, 6.32687 )
 script = null
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
