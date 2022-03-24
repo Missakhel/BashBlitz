@@ -61,3 +61,5 @@ script = ExtResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.238803, 0 )
 mesh = SubResource( 8 )
 material/0 = null
+
+[connection signal="body_entered" from="." to="." method="_on_BashBot_collision"]

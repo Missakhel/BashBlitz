@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Characters/BashBotR.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Textures/Bash Blitz.jpg" type="Texture" id=2]
@@ -13,6 +13,9 @@ albedo_texture = ExtResource( 2 )
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 164.524, 0.576654, 163.994 )
 
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.211351, 1, 0.158026 )
+
 [node name="Arena" type="Spatial"]
 
 [node name="GlobalCamera" type="Camera" parent="."]
@@ -20,7 +23,7 @@ transform = Transform( 1, 0, 0, 0, -8.45662e-09, 1, 0, -1, -8.45662e-09, 0, 30, 
 size = 31.8011
 
 [node name="Plane" type="RigidBody" parent="."]
-transform = Transform( 0.107967, 0, 0, 0, 0.715686, 0, 0, 0, 0.113018, 0, 0, 0 )
+transform = Transform( 0.119208, 0, 0, 0, 0.715686, 0, 0, 0, 0.124784, 0, 0, 0 )
 mode = 1
 mass = 50.0
 gravity_scale = 0.0
@@ -34,18 +37,40 @@ material/0 = SubResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.538755, 0 )
 shape = SubResource( 5 )
 
-[node name="BashBot" parent="." instance=ExtResource( 1 )]
+[node name="BashBotKeyboard" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.75264, 0.13049, 0.870193 )
 input_ray_pickable = false
 dashImpulse = 25
 
-[node name="BashBot2" parent="." instance=ExtResource( 1 )]
+[node name="BashBotController" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.02894, 0.0695772, 8.41827 )
 script = ExtResource( 8 )
 dashImpulse = 25
 
-[node name="BashBot3" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.76961, 0.306673, 6.32687 )
-script = null
+[node name="CSGBox" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34.198, 0.0489044, -0.0762501 )
+use_collision = true
+depth = 45.0
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="CSGBox2" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33.7257, 3.8147e-06, -0.268896 )
+use_collision = true
+depth = 45.0
+
+[node name="CSGBox3" type="CSGBox" parent="."]
+transform = Transform( -4.37114e-08, 0, 1.46971, 0, 1, 0, -1, 0, -6.42432e-08, -0.0411994, 3.8147e-06, -21.4491 )
+use_collision = true
+depth = 45.0
+
+[node name="CSGBox4" type="CSGBox" parent="."]
+transform = Transform( -4.37114e-08, 0, 1.55225, 0, 1, 0, -1, 0, -6.78511e-08, -0.0411976, 3.8147e-06, 20.6596 )
+use_collision = true
+depth = 45.0
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( -4.55559e-06, 0, 9.39186, 0, 6.05048, 0, -104.22, 0, -4.10531e-07, -20.2562, 3.8147e-06, -0.381364 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 6 )
+
+[connection signal="body_exited" from="Area" to="BashBotKeyboard" method="_on_Area_body_exited"]
