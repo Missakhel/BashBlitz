@@ -52,7 +52,6 @@ func _ready():
 func run(_delta):
 	Global.kdamage = damagePercentage
 
-
 	if linear_damp < movementDamp:
 		linear_damp += _delta*dampMultiplier
 
@@ -68,7 +67,7 @@ func run(_delta):
 		var direction = cursor.global_transform.origin - global_transform.origin
 		direction = direction.normalized()
 		apply_central_impulse(direction*(dashPercentage*dashImpulse))
-		linear_damp = -1
+		linear_damp = 1
 		dashCharge = 0
 		arrow.set_scale(Vector3(1,.25,1))
 
@@ -141,6 +140,8 @@ func _on_BashBot_collision(collisionBashbot):
 			damagePercentage += accumulatedForce * damageResistance
 			print(name," is ", damagePercentage, "% damaged")
 			apply_central_impulse(facingDirection*(accumulatedForce/10)*(damagePercentage/10))
+		else:
+			linear_damp = dashDamp
 
 
 func _on_Area_body_exited(body):
