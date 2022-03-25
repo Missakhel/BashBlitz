@@ -127,13 +127,13 @@ spot_range = 33.4766
 spot_angle = 77.6359
 
 [node name="BashBotKeyboard" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.163, 0 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0.163, 0 )
 input_ray_pickable = false
 dashImpulse = 25
 color = Color( 1, 0, 0, 1 )
 
 [node name="BashBotController" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.163, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 13, 0.163, 0 )
 script = ExtResource( 8 )
 dashImpulse = 25
 color = Color( 0, 0.156863, 1, 1 )
@@ -172,9 +172,6 @@ anchor_bottom = 1.0
 margin_top = 0.200012
 margin_bottom = 0.200012
 theme = SubResource( 16 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="GridContainer" type="GridContainer" parent="HUD"]
 anchor_left = 0.169
@@ -288,11 +285,9 @@ uppercase = true
 script = ExtResource( 9 )
 
 [node name="KeySign" type="Label" parent="HUD2/GridContainer"]
-margin_left = 30.0
-margin_top = 20.0
-margin_right = 60.0
-margin_bottom = 68.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = 31.0
+margin_right = 61.0
+margin_bottom = 48.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -334,11 +329,9 @@ uppercase = true
 script = ExtResource( 5 )
 
 [node name="ConSign" type="Label" parent="HUD2/GridContainer2"]
-margin_left = 30.0
-margin_top = 20.0
-margin_right = 60.0
-margin_bottom = 68.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = 31.0
+margin_right = 61.0
+margin_bottom = 48.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
