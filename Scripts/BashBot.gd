@@ -50,6 +50,9 @@ func _ready():
 	
 
 func run(_delta):
+	Global.kdamage = damagePercentage
+
+
 	if linear_damp < movementDamp:
 		linear_damp += _delta*dampMultiplier
 

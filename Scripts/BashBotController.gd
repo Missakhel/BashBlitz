@@ -46,6 +46,9 @@ func _ready():
 	cursor.hide()
 
 func run(_delta):
+	Global.cdamage = damagePercentage
+
+
 	if linear_damp < movementDamp:
 		linear_damp += _delta*dampMultiplier
 
