@@ -6,6 +6,7 @@ onready var cursor = $Cursor
 onready var arrow = $MeshInstance/Arrow
 onready var crashTexture = $MeshInstance/CrashTexture
 onready var camera = get_node("/root/Arena/GlobalCamera")
+onready var tuto = get_node("/root/Arena/TutorialHUD")
 onready var isDashing = false
 
 #Estas dos variables son necesarias para limitar la velocidad
@@ -99,7 +100,10 @@ func run(_delta):
 		
 		#Botón de Reseteado
 		if Input.is_action_just_pressed("Reset"):
+			tuto.visible = true
 			softReset = true
+		if Input.is_action_just_pressed("Enter"):
+			tuto.visible = false
 
 	#Esta línea de abajo se usa para obtener el producto punto
 	bashBotRotation = mesh.rotation_degrees - rotation_degrees + Vector3(0,90,0)
@@ -171,12 +175,11 @@ func _integrate_forces(state):
 		linear_velocity.z = 0
 		damagePercentage = 0
 		state.set_transform(spawnPoint)
-		print("Player 2 = ", Global.cscore)
+		#print("Player 2 = ", Global.cscore)
 		#print(self.get_translation())
 	
 	if softReset:
 		softReset = false
 		Global.cscore = 0
-		
-		print("Player 2 = ",  Global.cscore)
+		#print("Player 2 = ",  Global.cscore)
 		hasFallen = true

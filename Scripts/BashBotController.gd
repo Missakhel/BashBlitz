@@ -20,6 +20,7 @@ onready var mesh = $MeshInstance
 onready var cursor = $Cursor
 onready var arrow = $MeshInstance/Arrow
 onready var camera = get_node("/root/Arena/GlobalCamera")
+onready var tuto = get_node("/root/Arena/TutorialHUD")
 onready var crashTexture = $MeshInstance/CrashTexture
 onready var isDashing = false
 
@@ -97,7 +98,10 @@ func run(_delta):
 			isDashing = false
 		#Botón de Reseteado
 		if Input.is_action_just_pressed("Reset"):
+			tuto.visible = true
 			softReset = true
+		if Input.is_action_just_pressed("Enter"):
+			tuto.visible = false
 
 	if Input.get_action_strength("aim_left")>0:
 		cursorPosition.x -= Input.get_action_strength("aim_left")			
@@ -167,13 +171,12 @@ func _integrate_forces(state):
 		linear_velocity.x = 0
 		linear_velocity.z = 0
 		damagePercentage = 0
-		print("Player 1 = ", Global.kscore)
+		#print("Player 1 = ", Global.kscore)
 		state.set_transform(spawnPoint)
 		#print(self.get_translation())
 
 	if softReset:
 		softReset = false
 		Global.kscore = 0
-		
-		print("Player 1 = ",  Global.kscore)
+		#print("Player 1 = ",  Global.kscore)
 		hasFallen = true
