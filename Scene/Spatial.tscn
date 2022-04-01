@@ -225,9 +225,8 @@ __meta__ = {
 }
 
 [node name="Keyboard" type="Label" parent="HUD/GridContainer"]
-margin_top = 2.0
-margin_right = 153.0
-margin_bottom = 18.0
+margin_right = 201.0
+margin_bottom = 21.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -241,8 +240,8 @@ valign = 1
 uppercase = true
 
 [node name="KScore" type="Label" parent="HUD/GridContainer"]
-margin_left = 157.0
-margin_right = 169.0
+margin_left = 205.0
+margin_right = 217.0
 margin_bottom = 21.0
 text = "0"
 script = ExtResource( 4 )
@@ -260,9 +259,8 @@ __meta__ = {
 }
 
 [node name="Controller" type="Label" parent="HUD/GridContainer2"]
-margin_top = 2.0
-margin_right = 170.0
-margin_bottom = 18.0
+margin_right = 226.0
+margin_bottom = 21.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -276,8 +274,8 @@ valign = 1
 uppercase = true
 
 [node name="CScore" type="Label" parent="HUD/GridContainer2"]
-margin_left = 174.0
-margin_right = 186.0
+margin_left = 230.0
+margin_right = 242.0
 margin_bottom = 21.0
 text = "0"
 script = ExtResource( 3 )
@@ -308,8 +306,8 @@ __meta__ = {
 }
 
 [node name="KeyPercentage" type="Label" parent="HUD2/GridContainer"]
-margin_right = 27.0
-margin_bottom = 48.0
+margin_right = 18.0
+margin_bottom = 32.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -324,9 +322,9 @@ uppercase = true
 script = ExtResource( 9 )
 
 [node name="KeySign" type="Label" parent="HUD2/GridContainer"]
-margin_left = 31.0
-margin_right = 61.0
-margin_bottom = 48.0
+margin_left = 22.0
+margin_right = 41.0
+margin_bottom = 32.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -352,8 +350,8 @@ __meta__ = {
 }
 
 [node name="ConPercentage" type="Label" parent="HUD2/GridContainer2"]
-margin_right = 27.0
-margin_bottom = 48.0
+margin_right = 18.0
+margin_bottom = 32.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -368,9 +366,9 @@ uppercase = true
 script = ExtResource( 5 )
 
 [node name="ConSign" type="Label" parent="HUD2/GridContainer2"]
-margin_left = 31.0
-margin_right = 61.0
-margin_bottom = 48.0
+margin_left = 22.0
+margin_right = 41.0
+margin_bottom = 32.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -384,7 +382,6 @@ valign = 1
 uppercase = true
 
 [node name="TutorialHUD" type="Control" parent="."]
-visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
