@@ -21,6 +21,9 @@ onready var cursor = $Cursor
 onready var arrow = $MeshInstance/Arrow
 onready var camera = get_node("/root/Arena/GlobalCamera")
 onready var tuto = get_node("/root/Arena/TutorialHUD")
+onready var sfx_clash = get_node("/root/Arena/SFX_Clash")
+onready var sfx_fall = get_node("/root/Arena/SFX_Fall")
+onready var sfx_respawn = get_node("/root/Arena/SFX_Respawn")
 onready var crashTexture = $MeshInstance/CrashTexture
 onready var isDashing = false
 
@@ -153,6 +156,7 @@ func _on_BashBot_collision(collisionBashbot):
 		else:
 			linear_damp = dashDamp
 			crashTexture.visible = true
+			sfx_clash.play()
 			crashTexture.scale = Vector3.ZERO
 
 
@@ -160,6 +164,7 @@ func _on_Area_body_exited(body):
 	if body.name == name:
 		#print(body, " exited")
 		#print(self.get_translation())
+		sfx_fall.play()
 		hasFallen = true
 		Global.kscore += 1
 		
@@ -173,6 +178,7 @@ func _integrate_forces(state):
 		damagePercentage = 0
 		#print("Player 1 = ", Global.kscore)
 		state.set_transform(spawnPoint)
+		sfx_respawn.play()
 		#print(self.get_translation())
 
 	if softReset:

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Flying.mp3-659640d4985dfb3089f88bfe2baf5955.mp3str"
+
+[deps]
+
+source_file="res://Audio/Flying.mp3"
+dest_files=[ "res://.import/Flying.mp3-659640d4985dfb3089f88bfe2baf5955.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

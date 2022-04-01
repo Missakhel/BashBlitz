@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Long Slide Down.wav-889f6f2ca130074175336504b06a2c3c.sample"
+
+[deps]
+
+source_file="res://Audio/Long Slide Down.wav"
+dest_files=[ "res://.import/Long Slide Down.wav-889f6f2ca130074175336504b06a2c3c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

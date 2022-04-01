@@ -7,6 +7,9 @@ onready var arrow = $MeshInstance/Arrow
 onready var crashTexture = $MeshInstance/CrashTexture
 onready var camera = get_node("/root/Arena/GlobalCamera")
 onready var tuto = get_node("/root/Arena/TutorialHUD")
+onready var sfx_clash = get_node("/root/Arena/SFX_Clash")
+onready var sfx_fall = get_node("/root/Arena/SFX_Fall")
+onready var sfx_respawn = get_node("/root/Arena/SFX_Respawn")
 onready var isDashing = false
 
 #Estas dos variables son necesarias para limitar la velocidad
@@ -157,6 +160,7 @@ func _on_BashBot_collision(collisionBashbot):
 		else:
 			linear_damp = dashDamp
 			crashTexture.visible = true
+			sfx_clash.play()
 			crashTexture.scale = Vector3.ZERO
 
 
@@ -164,6 +168,7 @@ func _on_Area_body_exited(body):
 	if body.name == name:
 		#print(body, " exited")
 		#print(self.get_translation())
+		sfx_fall.play()
 		hasFallen = true
 		Global.cscore += 1
 
@@ -175,6 +180,7 @@ func _integrate_forces(state):
 		linear_velocity.z = 0
 		damagePercentage = 0
 		state.set_transform(spawnPoint)
+		sfx_respawn.play()
 		#print("Player 2 = ", Global.cscore)
 		#print(self.get_translation())
 	
