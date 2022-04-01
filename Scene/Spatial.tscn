@@ -75,7 +75,7 @@ mass = 50.0
 gravity_scale = 0.0
 
 [node name="Logo" type="MeshInstance" parent="Plane"]
-transform = Transform( 6.91238, 0, 0, 0, 0.999999, 0, 0, 0, 6.91238, 0, -0.0749996, 0 )
+transform = Transform( 8.32744, 0, 0, 0, 0.999999, 0, 0, 0, 6.91238, 0, -0.0749996, 0 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 14 )
 
@@ -129,13 +129,14 @@ spot_angle = 77.6359
 [node name="BashBotKeyboard" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.163, 0 )
 input_ray_pickable = false
-dashImpulse = 25
+dashImpulse = 50
 color = Color( 1, 0, 0, 1 )
 
 [node name="BashBotController" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.163, 0 )
 script = ExtResource( 8 )
-dashImpulse = 25
+movementDamp = 5
+dashImpulse = 50
 color = Color( 0, 0.156863, 1, 1 )
 
 [node name="CSGBox" type="CSGBox" parent="."]
@@ -288,11 +289,9 @@ uppercase = true
 script = ExtResource( 9 )
 
 [node name="KeySign" type="Label" parent="HUD2/GridContainer"]
-margin_left = 30.0
-margin_top = 20.0
-margin_right = 60.0
-margin_bottom = 68.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = 31.0
+margin_right = 61.0
+margin_bottom = 48.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -334,11 +333,9 @@ uppercase = true
 script = ExtResource( 5 )
 
 [node name="ConSign" type="Label" parent="HUD2/GridContainer2"]
-margin_left = 30.0
-margin_top = 20.0
-margin_right = 60.0
-margin_bottom = 68.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = 31.0
+margin_right = 61.0
+margin_bottom = 48.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )

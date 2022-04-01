@@ -1,17 +1,17 @@
 extends RigidBody
 
 #Estas dos variables son necesarias para limitar la velocidad
-export var acceleration = 50
+export var acceleration = 75
 export var topSpeed = 25
 
-export var movementDamp = 2.5
-export var dashImpulse = 25
-export var dampMultiplier = 5
-export var dashTime = 1.5
-export var dashDamp = 5
+export var movementDamp = 3
+export var dashImpulse = 50
+export var dampMultiplier = 7.5
+export var dashTime = 1.25
+export var dashDamp = 10
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
-export var damageResistance = .25
+export var damageResistance = 20
 export var damagePercentage = 0
 export var color : Color
 
@@ -20,6 +20,9 @@ onready var mesh = $MeshInstance
 onready var cursor = $Cursor
 onready var arrow = $MeshInstance/Arrow
 onready var camera = get_node("/root/Arena/GlobalCamera")
+onready var crashTexture = $MeshInstance/CrashTexture
+onready var isDashing = false
+
 var dashCharge = 1
 var dashPercentage = 0
 var cursorPosition = Vector3.ZERO
@@ -39,7 +42,7 @@ func _ready():
 	var meshColor = SpatialMaterial.new()
 	meshColor.albedo_color = color
 	arrow.set_surface_material(0,meshColor)
-
+	crashTexture.visible = false
 	contact_monitor = true
 	contacts_reported = 5
 	arrow.set_scale(Vector3(1,.25,1))
@@ -51,7 +54,13 @@ func run(_delta):
 	if linear_damp < movementDamp:
 		linear_damp += _delta*dampMultiplier
 
+	if crashTexture.visible and crashTexture.scale <= Vector3(1.5,1.5,0):
+		crashTexture.scale += Vector3(_delta*5,_delta*5,0)
+	elif crashTexture.scale > Vector3(dashPercentage/100,dashPercentage/100,0):
+		crashTexture.visible = false
+
 	if Input.is_action_pressed("pad_dash"):
+		isDashing = false
 		linear_damp = dashDamp
 		if dashCharge <= dashTime:
 			dashCharge += _delta
@@ -59,6 +68,7 @@ func run(_delta):
 		arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 		
 	elif Input.is_action_just_released("pad_dash"):
+		isDashing = true
 		linear_velocity = Vector3.ZERO
 		var direction = cursor.global_transform.origin - global_transform.origin
 		direction = direction.normalized()
@@ -71,16 +81,20 @@ func run(_delta):
 		#Estos son los nuevos parámetros para acceder a la función y limitan la velocidad
 		if Input.is_action_pressed("stick_left") and linear_velocity.x >= topSpeed*-1:
 			linear_velocity.x -= acceleration*_delta
-			linear_damp = -1
+			linear_damp = 1
+			isDashing = false
 		if Input.is_action_pressed("stick_right") and linear_velocity.x <= topSpeed:
 			linear_velocity.x += acceleration*_delta
-			linear_damp = -1
+			linear_damp = 1
+			isDashing = false
 		if Input.is_action_pressed("stick_up") and linear_velocity.z >= topSpeed*-1:
 			linear_velocity.z -= acceleration*_delta
-			linear_damp = -1
+			linear_damp = 1
+			isDashing = false
 		if Input.is_action_pressed("stick_down") and linear_velocity.z <= topSpeed:
 			linear_velocity.z += acceleration*_delta
-			linear_damp = -1
+			linear_damp = 1
+			isDashing = false
 		#Botón de Reseteado
 		if Input.is_action_just_pressed("Reset"):
 			softReset = true
@@ -98,7 +112,6 @@ func run(_delta):
 		cursor.global_transform.origin = cursorPosition * 2.5 + global_transform.origin
 
 	mesh.look_at(cursor.global_transform.origin, Vector3.UP)
-
 
 	#Esta línea de abajo se usa para obtener el producto punto
 	bashBotRotation = mesh.rotation_degrees - rotation_degrees + Vector3(0,90,0)
@@ -128,12 +141,15 @@ func _on_BashBot_collision(collisionBashbot):
 		var facingDirection = collisionBashbot.mesh.global_transform.origin.direction_to(mesh.global_transform.origin)
 		dotProduct = facingDirection.dot(collisionBashbot.bashBotRotation)
 
-		if accumulatedForce > 10 and dotProduct < collisionBashbot.dotProduct:
-			damagePercentage += accumulatedForce * damageResistance
+		if !isDashing: #accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
+			linear_damp = 1
+			damagePercentage += accumulatedForce
 			print(name," is ", damagePercentage, "% damaged")
-			apply_central_impulse(facingDirection*(accumulatedForce/10)*(damagePercentage/10))
+			apply_central_impulse(facingDirection*(accumulatedForce/damageResistance)*(damagePercentage/damageResistance))
 		else:
 			linear_damp = dashDamp
+			crashTexture.visible = true
+			crashTexture.scale = Vector3.ZERO
 
 
 func _on_Area_body_exited(body):
