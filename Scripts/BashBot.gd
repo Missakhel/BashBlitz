@@ -16,14 +16,14 @@ onready var isDashing = false
 export var acceleration = 75
 export var topSpeed = 25
 
-export var movementDamp = 5
+export var movementDamp = 7.5
 export var dashImpulse = 45
-export var dampMultiplier = 7.5
+export var dampMultiplier = 10
 export var dashTime = 1.25
 export var dashDamp = 15
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
-export var damageResistance = 12.5
+export var damageResistance = 10
 export var damagePercentage = 0
 export var color : Color
 
