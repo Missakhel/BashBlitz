@@ -17,13 +17,13 @@ export var acceleration = 75
 export var topSpeed = 25
 
 export var movementDamp = 5
-export var dashImpulse = 50
+export var dashImpulse = 45
 export var dampMultiplier = 7.5
 export var dashTime = 1.25
-export var dashDamp = 10
+export var dashDamp = 15
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
-export var damageResistance = 20
+export var damageResistance = 12.5
 export var damagePercentage = 0
 export var color : Color
 
@@ -84,22 +84,24 @@ func run(_delta):
 
 	else:
 		#Estos son los nuevos parámetros para acceder a la función y limitan la velocidad
-		if Input.is_action_pressed("ui_left") and linear_velocity.x >= topSpeed*-1:
-			linear_velocity.x -= acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		if Input.is_action_pressed("ui_right") and linear_velocity.x <= topSpeed:
-			linear_velocity.x += acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		if Input.is_action_pressed("ui_up") and linear_velocity.z >= topSpeed*-1:
-			linear_velocity.z -= acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		if Input.is_action_pressed("ui_down") and linear_velocity.z <= topSpeed:
-			linear_velocity.z += acceleration*_delta
-			linear_damp = 1
-			isDashing = false
+		if linear_velocity.x >= topSpeed*-1 and linear_velocity.x <= topSpeed:
+			if Input.is_action_pressed("ui_left"):
+				linear_velocity.x -= acceleration*_delta
+				linear_damp = 1
+				isDashing = false
+			if Input.is_action_pressed("ui_right"):
+				linear_velocity.x += acceleration*_delta
+				linear_damp = 1
+				isDashing = false
+		if linear_velocity.z >= topSpeed*-1 and linear_velocity.z <= topSpeed:
+			if Input.is_action_pressed("ui_up"):
+				linear_velocity.z -= acceleration*_delta
+				linear_damp = 1
+				isDashing = false
+			if Input.is_action_pressed("ui_down"):
+				linear_velocity.z += acceleration*_delta
+				linear_damp = 1
+				isDashing = false
 		
 		#Botón de Reseteado
 		if Input.is_action_just_pressed("Reset"):
@@ -152,12 +154,12 @@ func _on_BashBot_collision(collisionBashbot):
 		var facingDirection = collisionBashbot.mesh.global_transform.origin.direction_to(mesh.global_transform.origin)
 		dotProduct = facingDirection.dot(collisionBashbot.bashBotRotation)
 
-		if !isDashing:#accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
+		if !isDashing and collisionBashbot.isDashing:#accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
 			linear_damp = 1
 			damagePercentage += accumulatedForce
 			print(name," is ", damagePercentage, "% damaged")
 			apply_central_impulse(facingDirection*(accumulatedForce/damageResistance)*(damagePercentage/damageResistance))
-		else:
+		elif isDashing:
 			linear_damp = dashDamp
 			crashTexture.visible = true
 			sfx_clash.play()

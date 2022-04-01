@@ -163,15 +163,14 @@ spot_angle = 77.6359
 [node name="BashBotKeyboard" parent="." instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0.163, 0 )
 input_ray_pickable = false
-dashImpulse = 50
-color = Color( 1, 0, 0, 1 )
+dashImpulse = 45
+color = Color( 0, 0, 1, 1 )
 
 [node name="BashBotController" parent="." instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 13, 0.163, 0 )
 script = ExtResource( 8 )
-movementDamp = 5
-dashImpulse = 50
-color = Color( 0, 0.156863, 1, 1 )
+dashImpulse = 45
+color = Color( 0, 0.882353, 0, 1 )
 
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 3.5, 0, 0, 0, 1, 0, 0, 0, 1.01, 36, 0.876, 0 )
@@ -214,10 +213,10 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="HUD"]
 anchor_left = 0.169
 anchor_right = 0.169
-margin_left = -56.0
+margin_left = -181.733
 margin_top = -20.0
-margin_right = 125.0
-margin_bottom = -4.0
+margin_right = 119.267
+margin_bottom = 1.0
 rect_scale = Vector2( 1.5, 1.5 )
 columns = 2
 __meta__ = {
@@ -249,9 +248,9 @@ script = ExtResource( 4 )
 [node name="GridContainer2" type="GridContainer" parent="HUD"]
 anchor_left = 0.169
 anchor_right = 0.176
-margin_left = 334.0
-margin_top = -20.0
-margin_right = 527.0
+margin_left = 849.267
+margin_top = -22.0
+margin_right = 1337.57
 rect_scale = Vector2( 1.5, 1.5 )
 columns = 2
 __meta__ = {
@@ -295,11 +294,12 @@ __meta__ = {
 
 [node name="GridContainer" type="GridContainer" parent="HUD2"]
 anchor_left = 0.169
-anchor_right = 0.176
-margin_left = 70.0
-margin_right = 223.0
-margin_bottom = 48.0
-rect_scale = Vector2( 1.5, 1.5 )
+anchor_right = 0.169
+margin_left = -100.324
+margin_top = -22.0
+margin_right = 91.676
+margin_bottom = 10.0
+rect_scale = Vector2( 2.5, 2.5 )
 columns = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -340,10 +340,11 @@ uppercase = true
 [node name="GridContainer2" type="GridContainer" parent="HUD2"]
 anchor_left = 0.169
 anchor_right = 0.176
-margin_left = 500.0
-margin_right = 670.0
-margin_bottom = 48.0
-rect_scale = Vector2( 1.5, 1.5 )
+margin_left = 939.676
+margin_top = -26.0
+margin_right = 1230.7
+margin_bottom = 6.0
+rect_scale = Vector2( 2.5, 2.5 )
 columns = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -384,6 +385,7 @@ uppercase = true
 [node name="TutorialHUD" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+rect_scale = Vector2( 0.8, 0.8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -391,9 +393,12 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="TutorialHUD"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 4.0
+margin_right = 3.0
 margin_bottom = -22.0
 rect_scale = Vector2( 44.66, 60.976 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TextureRect" type="TextureRect" parent="TutorialHUD"]
 margin_right = 1920.0
@@ -404,12 +409,19 @@ __meta__ = {
 }
 
 [node name="PressStart" type="Label" parent="TutorialHUD/TextureRect"]
-margin_left = 702.0
-margin_top = 255.0
-margin_right = 1617.0
-margin_bottom = 363.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -429.0
+margin_top = -269.0
+margin_right = 486.0
+margin_bottom = -178.0
 custom_fonts/font = SubResource( 20 )
 text = "Press   Start / Enter"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Tip" type="Label" parent="TutorialHUD/TextureRect"]
 margin_left = 515.0
