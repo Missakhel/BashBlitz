@@ -87,7 +87,6 @@ default_font = SubResource( 21 )
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
-autoplay = true
 
 [node name="SFX_Clash" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
