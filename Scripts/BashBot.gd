@@ -16,14 +16,16 @@ onready var isDashing = false
 export var acceleration = 75
 export var topSpeed = 25
 
-export var movementDamp = 5
-export var dashImpulse = 50
-export var dampMultiplier = 7.5
+export var counterDamp = 1000
+export var movementDamp = 7.5
+export var dashImpulse = 45
+export var dampMultiplier = 10
 export var dashTime = 1.25
-export var dashDamp = 10
+export var dashDamp = 15
+export var axisDecceleration = 40
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
-export var damageResistance = 20
+export var damageResistance = 10
 export var damagePercentage = 0
 export var color : Color
 
@@ -35,6 +37,8 @@ var dotProduct : float
 var canRespawn = false
 var hasFallen = false
 var softReset = false
+var neuterX : bool
+var neuterZ : bool
 
 var cursorPosition = Vector3.ZERO
 var dashCharge = 1
@@ -64,6 +68,9 @@ func run(_delta):
 	elif crashTexture.scale > Vector3(dashPercentage/100,dashPercentage/100,0):
 		crashTexture.visible = false
 
+	neuterX = true
+	neuterZ = true
+
 	if Input.is_action_pressed("dash"):
 		isDashing = false
 		linear_damp = dashDamp
@@ -84,29 +91,65 @@ func run(_delta):
 
 	else:
 		#Estos son los nuevos parámetros para acceder a la función y limitan la velocidad
-		if Input.is_action_pressed("ui_left") and linear_velocity.x >= topSpeed*-1:
-			linear_velocity.x -= acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		if Input.is_action_pressed("ui_right") and linear_velocity.x <= topSpeed:
-			linear_velocity.x += acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		if Input.is_action_pressed("ui_up") and linear_velocity.z >= topSpeed*-1:
-			linear_velocity.z -= acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		if Input.is_action_pressed("ui_down") and linear_velocity.z <= topSpeed:
-			linear_velocity.z += acceleration*_delta
-			linear_damp = 1
-			isDashing = false
-		
+		if linear_velocity.x >= topSpeed*-1 and linear_velocity.x <= topSpeed:
+			if Input.is_action_pressed("ui_left"):
+				if linear_velocity.x > 0:
+					apply_central_impulse(linear_velocity*-1)
+					linear_velocity.x = 0
+				else:
+					neuterX = false
+					linear_damp = 1
+					linear_velocity.x -= acceleration*_delta
+				#moving(Axis.X, false)
+			if Input.is_action_pressed("ui_right"):
+				if linear_velocity.x < 0:
+					apply_central_impulse(linear_velocity*-1)
+					linear_velocity.x = 0
+				else:
+					neuterX = false
+					linear_damp = 1
+					linear_velocity.x += acceleration*_delta
+				#moving(Axis.X, true)
+		if linear_velocity.z >= topSpeed*-1 and linear_velocity.z <= topSpeed:
+			if Input.is_action_pressed("ui_up"):
+				if linear_velocity.z > 0:
+					apply_central_impulse(linear_velocity*-1)
+					linear_velocity.z = 0
+				else:
+					neuterZ = false
+					linear_damp = 1
+					linear_velocity.z -= acceleration*_delta
+				#moving(Axis.Z, false)
+			if Input.is_action_pressed("ui_down"):
+				if linear_velocity.z < 0:
+					apply_central_impulse(linear_velocity*-1)
+					linear_velocity.z = 0
+				else:
+					neuterZ = false
+					linear_damp = 1
+					linear_velocity.z += acceleration*_delta
+				#moving(Axis.Z, true)
+
 		#Botón de Reseteado
 		if Input.is_action_just_pressed("Reset"):
 			tuto.visible = true
 			softReset = true
 		if Input.is_action_just_pressed("Enter"):
 			tuto.visible = false
+	
+	#This function nullifies the other axis' speed if not accessed
+	if neuterX and linear_velocity.z != 0:
+		print("x neuter")
+		if linear_velocity.x > 0:
+			linear_velocity.x -= _delta * axisDecceleration
+		elif linear_velocity.x < 0:
+			linear_velocity.x += _delta * axisDecceleration
+	if neuterZ and linear_velocity.x != 0:
+		print("z neuter")
+		if linear_velocity.z > 0:
+			linear_velocity.z -= _delta * axisDecceleration
+		elif linear_velocity.z < 0:
+			linear_velocity.z += _delta * axisDecceleration
 
 	#Esta línea de abajo se usa para obtener el producto punto
 	bashBotRotation = mesh.rotation_degrees - rotation_degrees + Vector3(0,90,0)
@@ -116,7 +159,7 @@ func run(_delta):
 		scale -= Vector3(1,1,1)*_delta
 	elif scale < Vector3.ZERO:
 		canRespawn = true
-	
+
 func lookAtCursor(_delta):
 	var playerPosition = global_transform.origin
 	var dropPlane  = Plane(Vector3(0, 1, 0), playerPosition.y)
@@ -152,12 +195,12 @@ func _on_BashBot_collision(collisionBashbot):
 		var facingDirection = collisionBashbot.mesh.global_transform.origin.direction_to(mesh.global_transform.origin)
 		dotProduct = facingDirection.dot(collisionBashbot.bashBotRotation)
 
-		if !isDashing:#accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
+		if !isDashing and collisionBashbot.isDashing:#accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
 			linear_damp = 1
 			damagePercentage += accumulatedForce
 			print(name," is ", damagePercentage, "% damaged")
 			apply_central_impulse(facingDirection*(accumulatedForce/damageResistance)*(damagePercentage/damageResistance))
-		else:
+		elif isDashing:
 			linear_damp = dashDamp
 			crashTexture.visible = true
 			sfx_clash.play()
