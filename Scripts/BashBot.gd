@@ -25,7 +25,7 @@ export var dashDamp = 15
 export var axisDecceleration = 40
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
-export var damageResistance = 10
+export var damageResistance = 6.1
 export var damagePercentage = 0
 export var color : Color
 
@@ -80,6 +80,7 @@ func run(_delta):
 		arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 		
 	elif Input.is_action_just_released("dash"):
+		print(name," dashed")
 		isDashing = true
 		linear_velocity = Vector3.ZERO
 		var direction = cursor.global_transform.origin - global_transform.origin
@@ -100,6 +101,7 @@ func run(_delta):
 					neuterX = false
 					linear_damp = 1
 					linear_velocity.x -= acceleration*_delta
+				isDashing = false
 				#moving(Axis.X, false)
 			if Input.is_action_pressed("ui_right"):
 				if linear_velocity.x < 0:
@@ -109,6 +111,7 @@ func run(_delta):
 					neuterX = false
 					linear_damp = 1
 					linear_velocity.x += acceleration*_delta
+				isDashing = false
 				#moving(Axis.X, true)
 		if linear_velocity.z >= topSpeed*-1 and linear_velocity.z <= topSpeed:
 			if Input.is_action_pressed("ui_up"):
@@ -119,6 +122,7 @@ func run(_delta):
 					neuterZ = false
 					linear_damp = 1
 					linear_velocity.z -= acceleration*_delta
+				isDashing = false
 				#moving(Axis.Z, false)
 			if Input.is_action_pressed("ui_down"):
 				if linear_velocity.z < 0:
@@ -128,6 +132,7 @@ func run(_delta):
 					neuterZ = false
 					linear_damp = 1
 					linear_velocity.z += acceleration*_delta
+				isDashing = false
 				#moving(Axis.Z, true)
 
 		#Botón de Reseteado
@@ -138,15 +143,17 @@ func run(_delta):
 			tuto.visible = false
 	
 	#This function nullifies the other axis' speed if not accessed
-	if neuterX and linear_velocity.z != 0:
-		print("x neuter")
-		if linear_velocity.x > 0:
+	if neuterX and !neuterZ and !isDashing:
+		if linear_velocity.x < .3 and linear_velocity.x > -.3:
+			linear_velocity.x = 0
+		elif linear_velocity.x > 0:
 			linear_velocity.x -= _delta * axisDecceleration
 		elif linear_velocity.x < 0:
 			linear_velocity.x += _delta * axisDecceleration
-	if neuterZ and linear_velocity.x != 0:
-		print("z neuter")
-		if linear_velocity.z > 0:
+	if neuterZ and !neuterX and !isDashing:
+		if linear_velocity.z < .3 and linear_velocity.z > -.3:
+			linear_velocity.z = 0
+		elif linear_velocity.z > 0:
 			linear_velocity.z -= _delta * axisDecceleration
 		elif linear_velocity.z < 0:
 			linear_velocity.z += _delta * axisDecceleration
@@ -197,7 +204,7 @@ func _on_BashBot_collision(collisionBashbot):
 
 		if !isDashing and collisionBashbot.isDashing:#accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
 			linear_damp = 1
-			damagePercentage += accumulatedForce
+			damagePercentage += accumulatedForce/damageResistance
 			print(name," is ", damagePercentage, "% damaged")
 			apply_central_impulse(facingDirection*(accumulatedForce/damageResistance)*(damagePercentage/damageResistance))
 		elif isDashing:

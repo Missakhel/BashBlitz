@@ -414,6 +414,7 @@ valign = 1
 uppercase = true
 
 [node name="TutorialHUD" type="Control" parent="."]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.8, 0.8 )
