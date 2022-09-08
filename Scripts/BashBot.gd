@@ -168,19 +168,12 @@ func run(_delta):
 		canRespawn = true
 
 func lookAtCursor(_delta):
+	
 	var playerPosition = global_transform.origin
-	var dropPlane  = Plane(Vector3(0, 1, 0), playerPosition.y)
-	# Project a ray from camera, from where the mouse cursor is in 2D viewport
-	var rayLenght = 1000
+	var camPosition = camera.get_camera_transform().origin
 	var mouse_pos = get_viewport().get_mouse_position()
-	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * rayLenght
-	cursorPosition = dropPlane.intersects_ray(from,to)
-	# Set the position of cursor visualizer
-	cursorPosition = cursorPosition.normalized() * 2.5 + global_transform.origin
-	cursor.global_transform.origin = cursorPosition - Vector3(0,-1,0)
-	# Make player look at the cursor
-	mesh.look_at(cursorPosition, Vector3.UP)
+	var cursorPosition = camera.project_position(mouse_pos,playerPosition.y-camPosition.y)
+	mesh.look_at(Vector3(-cursorPosition.x,0,-cursorPosition.z), Vector3.UP)
 
 func _physics_process(_delta):
 	run(_delta)
