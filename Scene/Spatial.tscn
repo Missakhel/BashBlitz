@@ -205,7 +205,9 @@ material = SubResource( 12 )
 [node name="BashBotKeyboard" parent="." instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0.163, 0 )
 input_ray_pickable = false
-dashImpulse = 45
+mass = 0.00102041
+linear_damp = 0.0
+dashImpulse = 216
 color = Color( 0, 0, 1, 1 )
 
 [node name="BashBotController" parent="." instance=ExtResource( 1 )]

@@ -45,6 +45,12 @@ var bashBotRotation : Vector3
 var dotProduct : float
 #export var score = 0
 
+func getMousePos():
+	var playerPosition = global_transform.origin
+	var camPosition = camera.get_camera_transform().origin
+	var mouse_pos = get_viewport().get_mouse_position()
+	return camera.project_position(mouse_pos,playerPosition.y-camPosition.y)
+
 func _ready():
 	#Estas líneas son necesarias para cambiar el color de la flecha del robot
 	var meshColor = SpatialMaterial.new()

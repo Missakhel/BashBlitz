@@ -18,11 +18,12 @@ export var topSpeed = 25
 
 export var counterDamp = 1000
 export var movementDamp = 7.5
-export var dashImpulse = 45
+export var dashImpulse = 216
 export var dampMultiplier = 10
 export var dashTime = 1.25
 export var dashDamp = 15
 export var axisDecceleration = 40
+export var damp = 1.0/64.0
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
 export var damageResistance = 6.1
@@ -44,6 +45,12 @@ var cursorPosition = Vector3.ZERO
 var dashCharge = 1
 var dashPercentage = 0
 
+func getMousePos():
+	var playerPosition = global_transform.origin
+	var camPosition = camera.get_camera_transform().origin
+	var mouse_pos = get_viewport().get_mouse_position()
+	return camera.project_position(mouse_pos,playerPosition.y-camPosition.y)
+	
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
@@ -57,123 +64,72 @@ func _ready():
 	arrow.set_scale(Vector3(1,.25,1))
 	cursor.hide()
 
-func run(_delta):
-	Global.kdamage = damagePercentage
-
-	if linear_damp < movementDamp:
-		linear_damp += _delta*dampMultiplier
-
-	if crashTexture.visible and crashTexture.scale <= Vector3(1.5,1.5,0):
-		crashTexture.scale += Vector3(_delta*5,_delta*5,0)
-	elif crashTexture.scale > Vector3(dashPercentage/100,dashPercentage/100,0):
-		crashTexture.visible = false
-
-	neuterX = true
-	neuterZ = true
-
-	if Input.is_action_pressed("dash"):
-		isDashing = false
-		linear_damp = dashDamp
-		if dashCharge <= dashTime:
-			dashCharge += _delta
-		dashPercentage = dashCharge * 1 / dashTime
-		arrow.set_scale(Vector3(1,dashPercentage+.25,1))
-		
-	elif Input.is_action_just_released("dash"):
-		print(name," dashed")
-		isDashing = true
-		linear_velocity = Vector3.ZERO
-		var direction = cursor.global_transform.origin - global_transform.origin
-		direction = direction.normalized()
-		apply_central_impulse(direction*(dashPercentage*dashImpulse))
-		linear_damp = 1
-		dashCharge = 0
-		arrow.set_scale(Vector3(1,.25,1))
-
-	else:
-		#Estos son los nuevos parámetros para acceder a la función y limitan la velocidad
-		if linear_velocity.x >= topSpeed*-1 and linear_velocity.x <= topSpeed:
-			if Input.is_action_pressed("ui_left"):
-				if linear_velocity.x > 0:
-					apply_central_impulse(linear_velocity*-1)
-					linear_velocity.x = 0
-				else:
-					neuterX = false
-					linear_damp = 1
-					linear_velocity.x -= acceleration*_delta
-				isDashing = false
-				#moving(Axis.X, false)
-			if Input.is_action_pressed("ui_right"):
-				if linear_velocity.x < 0:
-					apply_central_impulse(linear_velocity*-1)
-					linear_velocity.x = 0
-				else:
-					neuterX = false
-					linear_damp = 1
-					linear_velocity.x += acceleration*_delta
-				isDashing = false
-				#moving(Axis.X, true)
-		if linear_velocity.z >= topSpeed*-1 and linear_velocity.z <= topSpeed:
-			if Input.is_action_pressed("ui_up"):
-				if linear_velocity.z > 0:
-					apply_central_impulse(linear_velocity*-1)
-					linear_velocity.z = 0
-				else:
-					neuterZ = false
-					linear_damp = 1
-					linear_velocity.z -= acceleration*_delta
-				isDashing = false
-				#moving(Axis.Z, false)
-			if Input.is_action_pressed("ui_down"):
-				if linear_velocity.z < 0:
-					apply_central_impulse(linear_velocity*-1)
-					linear_velocity.z = 0
-				else:
-					neuterZ = false
-					linear_damp = 1
-					linear_velocity.z += acceleration*_delta
-				isDashing = false
-				#moving(Axis.Z, true)
-
-		#Botón de Reseteado
-		if Input.is_action_just_pressed("Reset"):
-			tuto.visible = true
-			softReset = true
-		if Input.is_action_just_pressed("Enter"):
-			tuto.visible = false
+func chargingDash(_delta):
+	isDashing = false
+	#linear_damp = dashDamp
+	if dashCharge <= dashTime:
+		dashCharge += _delta
+	dashPercentage = dashCharge / dashTime
+	arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 	
-	#This function nullifies the other axis' speed if not accessed
-	if neuterX and !neuterZ and !isDashing:
-		if linear_velocity.x < .3 and linear_velocity.x > -.3:
-			linear_velocity.x = 0
-		elif linear_velocity.x > 0:
-			linear_velocity.x -= _delta * axisDecceleration
-		elif linear_velocity.x < 0:
-			linear_velocity.x += _delta * axisDecceleration
-	if neuterZ and !neuterX and !isDashing:
-		if linear_velocity.z < .3 and linear_velocity.z > -.3:
-			linear_velocity.z = 0
-		elif linear_velocity.z > 0:
-			linear_velocity.z -= _delta * axisDecceleration
-		elif linear_velocity.z < 0:
-			linear_velocity.z += _delta * axisDecceleration
-
-	#Esta línea de abajo se usa para obtener el producto punto
-	bashBotRotation = mesh.rotation_degrees - rotation_degrees + Vector3(0,90,0)
-
-	#Condicional de caída
-	if hasFallen and scale > Vector3.ZERO:
-		scale -= Vector3(1,1,1)*_delta
-	elif scale < Vector3.ZERO:
-		canRespawn = true
+func releaseDash(_delta):
+	isDashing = true
+	var playerPosition = global_transform.origin
+	var mousePosition = -getMousePos()
+	var direction = mousePosition -playerPosition
+	direction = direction.normalized()
+	
+	linear_velocity = (direction*(dashPercentage*dashImpulse))
+	#linear_damp = 1
+	dashCharge = 0
+	arrow.set_scale(Vector3(1,.25,1))
+	
+func moving(_delta):
+	var vel = sqrt(linear_velocity.x*linear_velocity.x+linear_velocity.z*linear_velocity.z)
+	if vel <= topSpeed:
+		if Input.is_action_pressed("ui_left"):
+			linear_velocity.x -= acceleration*_delta
+			isDashing = false
+		if Input.is_action_pressed("ui_right"):
+			linear_velocity.x += acceleration*_delta
+			isDashing = false
+		if Input.is_action_pressed("ui_up"):
+			linear_velocity.z -= acceleration*_delta
+			isDashing = false
+		if Input.is_action_pressed("ui_down"):
+			linear_velocity.z += acceleration*_delta
+			isDashing = false
+			
+func run(_delta):
+	
+	
+	if Input.is_action_pressed("dash"):
+		chargingDash(_delta)
+	elif Input.is_action_just_released("dash"):
+		releaseDash(_delta)
+	else:
+		moving(_delta)
+		
+	if Input.is_action_just_pressed("Reset"):
+		tuto.visible = true
+		softReset = true
+	if Input.is_action_just_pressed("Enter"):
+		tuto.visible = false
+		
+	#if hasFallen and scale > Vector3.ZERO:
+	#	scale -= Vector3(1,1,1)*_delta
+	#elif scale < Vector3.ZERO:
+	#	canRespawn = true
+	
+	linear_velocity*=1.0-damp
 
 func lookAtCursor(_delta):
-	
 	var playerPosition = global_transform.origin
-	var camPosition = camera.get_camera_transform().origin
-	var mouse_pos = get_viewport().get_mouse_position()
-	var cursorPosition = camera.project_position(mouse_pos,playerPosition.y-camPosition.y)
-	mesh.look_at(Vector3(-cursorPosition.x,0,-cursorPosition.z), Vector3.UP)
+	var cursorPosition = -getMousePos()
+	var relapos = cursorPosition - playerPosition
+	relapos *= 1000
+	cursorPosition = relapos + playerPosition
+	mesh.look_at(Vector3(cursorPosition.x,0,cursorPosition.z), Vector3.UP)
 
 func _physics_process(_delta):
 	run(_delta)
