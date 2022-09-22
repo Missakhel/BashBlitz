@@ -30,6 +30,8 @@ export var damageResistance = 6.1
 export var damagePercentage = 0
 export var color : Color
 
+export var tag = "bash"
+
 #Declaración del producto punto, rotación global del mesh y el puntaje
 var bashBotRotation : Vector3
 var dotProduct : float
@@ -116,10 +118,10 @@ func run(_delta):
 	if Input.is_action_just_pressed("Enter"):
 		tuto.visible = false
 		
-	#if hasFallen and scale > Vector3.ZERO:
-	#	scale -= Vector3(1,1,1)*_delta
-	#elif scale < Vector3.ZERO:
-	#	canRespawn = true
+	if hasFallen and scale > Vector3.ZERO:
+		scale -= Vector3(1,1,1)*_delta
+	elif scale < Vector3.ZERO:
+		canRespawn = true
 	
 	linear_velocity*=1.0-damp
 
@@ -136,7 +138,21 @@ func _physics_process(_delta):
 	lookAtCursor(_delta)
 
 func _on_BashBot_collision(collisionBashbot):
-	if collisionBashbot.name == "BashBotController":
+	
+	if collisionBashbot is RigidBody and collisionBashbot.isDashing:
+		linear_velocity = collisionBashbot.linear_velocity*damagePercentage/100
+		damagePercentage += linear_velocity.length()*6
+		
+	else:
+		linear_velocity.x *= -1
+		linear_velocity.z *= -1
+		
+	global_transform.origin.y = .163
+	
+func comment(collisionBashbot):
+	if collisionBashbot is RigidBody:
+		#var a = 0
+	#if collisionBashbot.name == "BashBotController":
 		var accumulatedForce = 0
 		if collisionBashbot.linear_velocity.x < 0:
 			accumulatedForce += collisionBashbot.linear_velocity.x*-1

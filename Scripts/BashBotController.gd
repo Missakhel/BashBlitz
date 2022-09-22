@@ -182,6 +182,17 @@ func _physics_process(_delta):
 	run(_delta)
 
 func _on_BashBot_collision(collisionBashbot):
+	if collisionBashbot is RigidBody and collisionBashbot.isDashing:
+		linear_velocity = collisionBashbot.linear_velocity*damagePercentage/100
+		damagePercentage += collisionBashbot.linear_velocity.length()
+		
+	else:
+		linear_velocity.x *= -1
+		linear_velocity.z *= -1
+		
+	global_transform.origin.y = .163
+	
+func comment(collisionBashbot):
 	if collisionBashbot.name == "BashBotKeyboard":
 		var accumulatedForce = 0
 		if collisionBashbot.linear_velocity.x < 0:
