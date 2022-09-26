@@ -6,8 +6,8 @@
 [ext_resource path="res://Scripts/LocalCamera.gd" type="Script" id=4]
 
 [sub_resource type="CylinderShape" id=1]
-radius = 9.61199
 height = 5.5693
+radius = 9.61199
 
 [sub_resource type="SpatialMaterial" id=3]
 albedo_texture = ExtResource( 3 )
@@ -38,7 +38,6 @@ material/0 = SubResource( 3 )
 [node name="Cursor" type="MeshInstance" parent="."]
 transform = Transform( -1.5, 0, -1.31134e-07, 0, 1.5, 0, 1.31134e-07, 0, -1.5, 0, 0, 0 )
 mesh = SubResource( 2 )
-material/0 = null
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 10, 0, 0, 0, -4.37114e-07, 10, 0, -10, -4.37114e-07, 0, 91.8462, 0 )
