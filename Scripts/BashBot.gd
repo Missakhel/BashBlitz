@@ -30,7 +30,6 @@ export var damageResistance = 6.1
 export var damagePercentage = 0
 export var color : Color
 
-export var tag = "bash"
 
 #Declaración del producto punto, rotación global del mesh y el puntaje
 var bashBotRotation : Vector3
@@ -150,9 +149,8 @@ func _on_BashBot_collision(collisionBashbot):
 	global_transform.origin.y = .163
 	
 func comment(collisionBashbot):
-	if collisionBashbot is RigidBody:
-		#var a = 0
-	#if collisionBashbot.name == "BashBotController":
+	
+	if collisionBashbot.name == "BashBotController":
 		var accumulatedForce = 0
 		if collisionBashbot.linear_velocity.x < 0:
 			accumulatedForce += collisionBashbot.linear_velocity.x*-1
