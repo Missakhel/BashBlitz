@@ -18,8 +18,8 @@ size = Vector3( 1.5, 2.5, 0.1 )
 albedo_color = Color( 0, 0.623529, 1, 1 )
 
 [sub_resource type="CylinderShape" id=3]
-radius = 1.25195
 height = 0.496174
+radius = 1.25195
 
 [sub_resource type="SphereMesh" id=8]
 radius = 0.1
@@ -64,6 +64,5 @@ script = ExtResource( 3 )
 [node name="Cursor" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.238803, 0 )
 mesh = SubResource( 8 )
-material/0 = null
 
 [connection signal="body_entered" from="." to="." method="_on_BashBot_collision"]

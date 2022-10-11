@@ -1,0 +1,467 @@
+[gd_scene load_steps=35 format=2]
+
+[ext_resource path="res://Textures/WhatsApp Image 2022-03-24 at 6.47.59 PM.jpeg" type="Texture" id=2]
+[ext_resource path="res://Scripts/CScore.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/KScore.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/ConPercentage.gd" type="Script" id=5]
+[ext_resource path="res://HUD/Epilogue-BlackItalic.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://HUD/Epilogue-BoldItalic.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Scripts/KeyPercentage.gd" type="Script" id=9]
+[ext_resource path="res://Textures/Tutorial.png" type="Texture" id=10]
+[ext_resource path="res://Audio/Flying.mp3" type="AudioStream" id=11]
+[ext_resource path="res://Audio/Action Misc 2.wav" type="AudioStream" id=12]
+[ext_resource path="res://Audio/Long Slide Down.wav" type="AudioStream" id=13]
+[ext_resource path="res://Audio/Collect 4.wav" type="AudioStream" id=14]
+[ext_resource path="res://Meshes/Corner.obj" type="ArrayMesh" id=15]
+[ext_resource path="res://Meshes/blocker.obj" type="ArrayMesh" id=16]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=17]
+
+[sub_resource type="PlaneMesh" id=2]
+size = Vector2( 19.5, 19.5 )
+
+[sub_resource type="SpatialMaterial" id=14]
+albedo_texture = ExtResource( 2 )
+metallic_specular = 0.0
+
+[sub_resource type="PlaneMesh" id=8]
+
+[sub_resource type="SpatialMaterial" id=9]
+
+[sub_resource type="PlaneMesh" id=10]
+
+[sub_resource type="SpatialMaterial" id=11]
+albedo_color = Color( 0.113725, 0.113725, 0.113725, 1 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 217.32, 0.576654, 163.994 )
+
+[sub_resource type="SpatialMaterial" id=13]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=12]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=7]
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.205136, 0.202562, 0.204994 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 20
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=16]
+default_font = SubResource( 15 )
+
+[sub_resource type="Theme" id=17]
+
+[sub_resource type="DynamicFont" id=18]
+size = 30
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 7 )
+
+[sub_resource type="Theme" id=19]
+default_font = SubResource( 18 )
+
+[sub_resource type="DynamicFont" id=20]
+size = 88
+outline_size = 9
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=21]
+size = 37
+outline_size = 6
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_space = 8
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=22]
+default_font = SubResource( 21 )
+
+[node name="Arena" type="Spatial"]
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+autoplay = true
+
+[node name="SFX_Clash" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+
+[node name="SFX_Fall" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+
+[node name="SFX_Respawn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+
+[node name="GlobalCamera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -3.20093e-08, 1, 0, -1, -3.20093e-08, 0, 30.7847, 0 )
+size = 44.3647
+
+[node name="Plane" type="RigidBody" parent="."]
+transform = Transform( 0.117021, 0, 0, 0, 0.1, 0, 0, 0, 0.117021, 0, -0.138262, 0 )
+mode = 1
+mass = 50.0
+gravity_scale = 0.0
+
+[node name="Logo" type="MeshInstance" parent="Plane"]
+transform = Transform( 7.78003, 0, 0, 0, 0.999999, 0, 0, 0, 6.45799, 0, -0.0749996, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 14 )
+
+[node name="Arena" type="MeshInstance" parent="Plane"]
+transform = Transform( 207.057, 0, 0, 0, 10, 0, 0, 0, 147.366, 0, -1, 0 )
+mesh = SubResource( 8 )
+skeleton = NodePath(".")
+material/0 = SubResource( 9 )
+
+[node name="Limit" type="MeshInstance" parent="Plane"]
+transform = Transform( 293.681, 0, 0, 0, 9.94068, 0, 0, 0, 195.601, 0, -6.52603, 0 )
+mesh = SubResource( 10 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 11 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Plane"]
+transform = Transform( 0.949723, 0, 0, 0, 1.00097, 0, 0, 0, 0.895962, 0, -0.25, 0 )
+shape = SubResource( 5 )
+
+[node name="SpotLight" type="SpotLight" parent="Plane"]
+transform = Transform( 8.54548, 0, 0, 0, -4.37114e-07, 10, 0, -8.54548, -3.73535e-07, -224.657, 165.786, -168.062 )
+light_indirect_energy = 6.031
+spot_range = 33.4766
+spot_angle = 77.6359
+
+[node name="SpotLight2" type="SpotLight" parent="Plane"]
+transform = Transform( 8.54548, 0, 0, 0, -4.37114e-07, 10, 0, -8.54548, -3.73535e-07, 224.496, 165.786, -168.062 )
+light_indirect_energy = 6.031
+spot_range = 33.4766
+spot_angle = 77.6359
+
+[node name="SpotLight3" type="SpotLight" parent="Plane"]
+transform = Transform( 8.54548, 0, 0, 0, -4.37114e-07, 10, 0, -8.54548, -3.73535e-07, -224.657, 165.786, 164.3 )
+light_indirect_energy = 6.031
+spot_range = 33.4766
+spot_angle = 77.6359
+
+[node name="SpotLight4" type="SpotLight" parent="Plane"]
+transform = Transform( 8.54548, 0, 0, 0, -4.37114e-07, 10, 0, -8.54548, -3.73535e-07, 224.496, 165.786, 168.381 )
+light_indirect_energy = 6.031
+spot_range = 33.4766
+spot_angle = 77.6359
+
+[node name="SpotLight5" type="SpotLight" parent="Plane"]
+transform = Transform( 8.54548, 0, 0, 0, -4.37114e-07, 10, 0, -8.54548, -3.73535e-07, -0.489595, 165.786, -4.48023 )
+light_energy = 0.25
+light_indirect_energy = 6.031
+spot_range = 33.4766
+spot_angle = 77.6359
+
+[node name="TLCorner" type="CSGMesh" parent="Plane"]
+transform = Transform( 41.8158, 0, 0, 0, 43.0589, 0, 0, 0, 41.8158, -185.907, 7.17147, -84.5098 )
+use_collision = true
+mesh = ExtResource( 15 )
+
+[node name="BLCorner" type="CSGMesh" parent="Plane"]
+transform = Transform( -1.82783e-06, 0, 41.8158, 0, 43.0589, 0, -41.8158, 0, -1.82783e-06, -143.913, 7.17147, 126.489 )
+use_collision = true
+mesh = ExtResource( 15 )
+
+[node name="TRCorner" type="CSGMesh" parent="Plane"]
+transform = Transform( 4.98649e-07, 0, -41.8158, 0, 43.0589, 0, 41.8158, 0, 4.98649e-07, 144.105, 7.17147, -126.384 )
+use_collision = true
+mesh = ExtResource( 15 )
+
+[node name="BRCorner" type="CSGMesh" parent="Plane"]
+transform = Transform( -41.8158, 0, -3.65566e-06, 0, 43.0589, 0, 3.65566e-06, 0, -41.8158, 186.163, 7.17147, 84.5063 )
+use_collision = true
+mesh = ExtResource( 15 )
+
+[node name="TBlocker" type="CSGMesh" parent="Plane"]
+transform = Transform( 41.8158, 0, 0, 0, 43.0589, 0, 0, 0, 41.8158, -59.8901, 7.17046, -103.583 )
+use_collision = true
+mesh = ExtResource( 16 )
+
+[node name="BBlocker" type="CSGMesh" parent="Plane"]
+transform = Transform( -41.8158, 0, -3.65566e-06, 0, 43.0589, 0, 3.65566e-06, 0, -41.8158, 60.6955, 7.17147, 104.988 )
+use_collision = true
+mesh = ExtResource( 16 )
+
+[node name="CSGBox2" type="CSGBox" parent="Plane"]
+transform = Transform( 29.8278, 0, 0, 0, 9.97281, 0, 0, 0, 8.60743, -307.637, 10.1426, 0 )
+depth = 45.0
+material = SubResource( 13 )
+
+[node name="CSGBox" type="CSGBox" parent="Plane"]
+transform = Transform( 29.9092, 0, 0, 0, 10, 0, 0, 0, 8.63093, 307.637, 10.1426, 0 )
+depth = 45.0
+material = SubResource( 12 )
+
+[node name="CSGBox3" type="CSGBox" parent="."]
+transform = Transform( -4.0482e-08, 0, 1.27804, 0, 1, 0, -0.926119, 0, -5.58651e-08, 0, 0.876029, -19.9116 )
+visible = false
+depth = 45.0
+
+[node name="CSGBox4" type="CSGBox" parent="."]
+transform = Transform( -4.0482e-08, 0, 1.27804, 0, 1, 0, -0.926119, 0, -5.58651e-08, 0, 0.876029, 19.9116 )
+visible = false
+depth = 45.0
+material = SubResource( 7 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 117.94, 0, 0, 0, 10, 0, 0, 0, 84.149, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 6 )
+
+[node name="HUD" type="Control" parent="."]
+anchor_top = 0.949
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -37.0
+margin_top = 1.0
+theme = SubResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="HUD"]
+anchor_left = 0.169
+anchor_right = 0.169
+margin_left = -181.733
+margin_top = -20.0
+margin_right = 119.267
+margin_bottom = 1.0
+rect_scale = Vector2( 1.5, 1.5 )
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Keyboard" type="Label" parent="HUD/GridContainer"]
+margin_right = 201.0
+margin_bottom = 21.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+text = "Keyboard Score:  "
+valign = 1
+uppercase = true
+
+[node name="KScore" type="Label" parent="HUD/GridContainer"]
+margin_left = 205.0
+margin_right = 217.0
+margin_bottom = 21.0
+text = "0"
+script = ExtResource( 4 )
+
+[node name="GridContainer2" type="GridContainer" parent="HUD"]
+anchor_left = 0.169
+anchor_right = 0.176
+margin_left = 849.267
+margin_top = -22.0
+margin_right = 1337.57
+rect_scale = Vector2( 1.5, 1.5 )
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controller" type="Label" parent="HUD/GridContainer2"]
+margin_right = 226.0
+margin_bottom = 21.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+text = "Controller Score:  "
+valign = 1
+uppercase = true
+
+[node name="CScore" type="Label" parent="HUD/GridContainer2"]
+margin_left = 230.0
+margin_right = 242.0
+margin_bottom = 21.0
+text = "0"
+script = ExtResource( 3 )
+
+[node name="HUD2" type="Control" parent="."]
+anchor_top = 0.949
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 42.0
+margin_top = -79.0
+margin_right = -882.0
+margin_bottom = -138.0
+theme = SubResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="HUD2"]
+anchor_left = 0.169
+anchor_right = 0.169
+margin_left = -100.324
+margin_top = -22.0
+margin_right = 91.676
+margin_bottom = 10.0
+rect_scale = Vector2( 2.5, 2.5 )
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KeyPercentage" type="Label" parent="HUD2/GridContainer"]
+margin_right = 18.0
+margin_bottom = 32.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+text = "0"
+valign = 1
+uppercase = true
+script = ExtResource( 9 )
+
+[node name="KeySign" type="Label" parent="HUD2/GridContainer"]
+margin_left = 22.0
+margin_right = 41.0
+margin_bottom = 32.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+text = "%"
+valign = 1
+uppercase = true
+
+[node name="GridContainer2" type="GridContainer" parent="HUD2"]
+anchor_left = 0.169
+anchor_right = 0.176
+margin_left = 939.676
+margin_top = -26.0
+margin_right = 1230.7
+margin_bottom = 6.0
+rect_scale = Vector2( 2.5, 2.5 )
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConPercentage" type="Label" parent="HUD2/GridContainer2"]
+margin_right = 18.0
+margin_bottom = 32.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+text = "0"
+valign = 1
+uppercase = true
+script = ExtResource( 5 )
+
+[node name="ConSign" type="Label" parent="HUD2/GridContainer2"]
+margin_left = 22.0
+margin_right = 41.0
+margin_bottom = 32.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+text = "%"
+valign = 1
+uppercase = true
+
+[node name="TutorialHUD" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 0.8, 0.8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="TutorialHUD"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 3.0
+margin_bottom = -22.0
+rect_scale = Vector2( 44.66, 60.976 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="TutorialHUD"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PressStart" type="Label" parent="TutorialHUD/TextureRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -429.0
+margin_top = -269.0
+margin_right = 486.0
+margin_bottom = -178.0
+custom_fonts/font = SubResource( 20 )
+text = "Press   Start / Enter"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tip" type="Label" parent="TutorialHUD/TextureRect"]
+margin_left = 515.0
+margin_top = 1019.0
+margin_right = 1492.0
+margin_bottom = 1058.0
+theme = SubResource( 22 )
+text = "You can use the Dash to break your speed too!"
+
+[node name="world" type="Node" parent="."]
+script = ExtResource( 17 )
+num_players = 2
+
+[node name="spawnPoint1" type="Spatial" parent="world"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.163, 10 )
+
+[node name="spawnPoint2" type="Spatial" parent="world"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.163, -10 )
+
+[node name="spawnPoint4" type="Spatial" parent="world"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.163, 10 )
+
+[node name="spawnPoint3" type="Spatial" parent="world"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.163, -10 )

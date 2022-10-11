@@ -46,6 +46,35 @@ var cursorPosition = Vector3.ZERO
 var dashCharge = 1
 var dashPercentage = 0
 
+var Id = 0
+
+var frame = 1/60
+
+var isChargingDash = false
+
+func _input(event):
+	print(Id)
+	print(event.get_device())
+	print(event.as_text())
+	if(event.get_device() == Id):
+		if event.is_action_pressed("pad_dash"):
+			isChargingDash = true
+		elif isChargingDash:
+			isChargingDash = false
+			releaseDash()	
+		var vel = sqrt(linear_velocity.x*linear_velocity.x+linear_velocity.z*linear_velocity.z)
+		if vel <= topSpeed and not isChargingDash and event is InputEventJoypadMotion:
+			print("working")
+			var even = event as InputEventJoypadMotion
+			if even.get_axis_value() != 0:
+				if  even.get_axis() == 0:
+					linear_velocity.x += acceleration*even.get_axis_value()*1
+					isDashing = false
+				if  even.get_axis() == 1:
+					linear_velocity.x += acceleration*even.get_axis_value()*1
+					isDashing = false
+			
+
 func getMousePos():
 	var playerPosition = global_transform.origin
 	var camPosition = camera.get_camera_transform().origin
@@ -73,7 +102,9 @@ func chargingDash(_delta):
 	dashPercentage = dashCharge / dashTime
 	arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 	
-func releaseDash(_delta):
+	
+	
+func releaseDash():
 	isDashing = true
 	var playerPosition = global_transform.origin
 	var mousePosition = -getMousePos()
@@ -104,12 +135,12 @@ func moving(_delta):
 func run(_delta):
 	
 	
-	if Input.is_action_pressed("dash"):
-		chargingDash(_delta)
-	elif Input.is_action_just_released("dash"):
-		releaseDash(_delta)
-	else:
-		moving(_delta)
+	#if isChargingDash:#Input.is_action_pressed("dash") or Input.is_action_pressed("pad_dash"):
+	#	chargingDash(_delta)
+	#elif Input.is_action_just_released("dash") or Input.is_action_just_released("pad_dash"):
+	#	releaseDash()
+	#else:
+	#	moving(_delta)
 		
 	if Input.is_action_just_pressed("Reset"):
 		tuto.visible = true
