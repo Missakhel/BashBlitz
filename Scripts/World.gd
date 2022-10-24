@@ -1,7 +1,6 @@
 extends Node
 
 const BashBot = preload("res://Characters/BashBotR.tscn")
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -47,7 +46,9 @@ func _ready():
 		players.append(bot)
 		spawn(bot)
 
-
+func respawn(Id):
+	var bot = players[Id] as BashBot
+	spawn(bot)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
