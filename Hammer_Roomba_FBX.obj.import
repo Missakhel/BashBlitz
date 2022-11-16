@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Hammer_Roomba_FBX.obj-6901119b4657669d2b441430dca1e94c.mesh"
+
+[deps]
+
+files=[ "res://.import/Hammer_Roomba_FBX.obj-6901119b4657669d2b441430dca1e94c.mesh" ]
+
+source_file="res://Hammer_Roomba_FBX.obj"
+dest_files=[ "res://.import/Hammer_Roomba_FBX.obj-6901119b4657669d2b441430dca1e94c.mesh", "res://.import/Hammer_Roomba_FBX.obj-6901119b4657669d2b441430dca1e94c.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

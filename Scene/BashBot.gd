@@ -2,7 +2,6 @@ extends KinematicBody
 
 class_name BashBot
 
-onready var spawnPoint = global_transform
 onready var mesh = $MeshInstance
 onready var cursor = $Cursor
 onready var arrow = $MeshInstance/Arrow
@@ -19,13 +18,8 @@ onready var isDashing = false
 export var acceleration = 75 #75
 export var topSpeed = 25
 
-export var counterDamp = 1000
-export var movementDamp = 7.5
-export var dashImpulse =36*3
-export var dampMultiplier = 10
+export var dashImpulse = 108
 export var dashTime = 1.25
-export var dashDamp = 15
-export var axisDecceleration = 40
 export var damp = 1.0/64.0
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
@@ -51,7 +45,6 @@ var dashPercentage = 0
 
 var Id = 0
 var linear_velocity = Vector3.ZERO
-var input_acceleration = Vector3.ZERO
 export var rebote = 1
 
 var frame = 1/60
@@ -71,30 +64,6 @@ func _input(event):
 				else :
 					isChargingDash = false
 					releaseDash()
-				
-		#if not isChargingDash and event is InputEventJoypadMotion:
-		#	#print("working")
-		#	var even = event as InputEventJoypadMotion
-		#	if abs(even.get_axis_value()) > 3/6:
-		#		if  even.get_axis() == 0:
-		#			print(even.get_axis_value())
-		#			input_acceleration.x = acceleration*even.get_axis_value()
-		#			#linear_velocity.x += acceleration*even.get_axis_value()*1
-		#			#isDashing = false
-		#		if  even.get_axis() == 1:
-		#			input_acceleration.z = acceleration*even.get_axis_value()
-		#			#linear_velocity.z += acceleration*even.get_axis_value()*1
-		#			#isDashing = false
-		#	else:
-		#		input_acceleration = Vector3.ZERO
-			
-			
-
-func getMousePos():
-	var playerPosition = global_transform.origin
-	var camPosition = camera.get_camera_transform().origin
-	var mouse_pos = get_viewport().get_mouse_position()
-	return camera.project_position(mouse_pos,playerPosition.y-camPosition.y)
 	
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -111,7 +80,6 @@ func _ready():
 
 func chargingDash(_delta):
 	isDashing = false
-	#linear_damp = dashDamp
 	if dashCharge <= dashTime:
 		dashCharge += _delta
 	dashPercentage = dashCharge / dashTime
@@ -124,31 +92,15 @@ func releaseDash():
 	var playerPosition = global_transform.origin
 	
 	linear_velocity += (Vector3(direction.x,0,direction.y)*(dashPercentage*dashImpulse))
-	#linear_damp = 1
 	dashCharge = 0
 	arrow.set_scale(Vector3(1,.25,1))
 	
 func moving(_delta):
-	
-	#Input.get()
-	
 	var vel = sqrt(linear_velocity.x*linear_velocity.x+linear_velocity.z*linear_velocity.z)
 	if vel <= topSpeed:
 		
-		linear_velocity.x += Input.get_axis("move_left"+String(Id), "move_right"+String(Id))
-		linear_velocity.z += Input.get_axis("move_down"+String(Id), "move_up"+String(Id))
-		#if Input.is_action_pressed("ui_left"):
-		#	linear_velocity.x -= acceleration*_delta
-		#	isDashing = false
-		#if Input.is_action_pressed("ui_right"):
-		#	linear_velocity.x += acceleration*_delta
-		#	isDashing = false
-		#if Input.is_action_pressed("ui_up"):
-		#	linear_velocity.z -= acceleration*_delta
-		#	isDashing = false
-		#if Input.is_action_pressed("ui_down"):
-		#	linear_velocity.z += acceleration*_delta
-		#	isDashing = false
+		linear_velocity.x += Input.get_axis("move_left"+String(Id), "move_right"+String(Id))*acceleration
+		linear_velocity.z += Input.get_axis("move_down"+String(Id), "move_up"+String(Id))*acceleration
 			
 func run(_delta):
 	
@@ -194,44 +146,22 @@ func lookAtCursor(_delta):
 		#lookPos.y *=2.5
 		mesh.look_at(lookPos,Vector3.UP)
 	pass
-	#var playerPosition = global_transform.origin
-	#var cursorPosition = -getMousePos()
-	#var relapos = cursorPosition - playerPosition
-	#relapos *= 1000
-	#cursorPosition = relapos + playerPosition
-	#mesh.look_at(Vector3(cursorPosition.x,0,cursorPosition.z), Vector3.UP)
 
 func _physics_process(_delta):
 	run(_delta)
 	
 	if not hasFallen:
-		if linear_velocity.length() < topSpeed:
-			linear_velocity += input_acceleration *_delta
 		var collicion = move_and_collide(linear_velocity*_delta)
 		if(collicion):
 			
 			var other = collicion.get_collider()
 			var thisClass = get_script()
 			if other is thisClass:
-				other.damagePercentage += linear_velocity.length()/36/damageResistance
+				other.damagePercentage += linear_velocity.length()/damageResistance
 				other.linear_velocity += linear_velocity*other.damagePercentage
 				#print("choke"+String(Id))
 			linear_velocity = -linear_velocity.reflect(collicion.get_normal())
 			linear_velocity.y = 0
-			
-	
-
-func _on_BashBot_collision(collisionBashbot):
-	pass
-#	if collisionBashbot is get_script() and collisionBashbot.isDashing:
-#		linear_velocity = collisionBashbot.linear_velocity*damagePercentage/100
-#		damagePercentage += linear_velocity.length()*6
-#		
-#	else:
-#		linear_velocity.x *= -1
-#		linear_velocity.z *= -1
-#		
-#	global_transform.origin.y = .163
 	
 func comment(collisionBashbot):
 	
@@ -251,12 +181,9 @@ func comment(collisionBashbot):
 		dotProduct = facingDirection.dot(collisionBashbot.bashBotRotation)
 
 		if !isDashing and collisionBashbot.isDashing:#accumulatedForce > 7.5 and dotProduct < collisionBashbot.dotProduct:
-			#linear_damp = 1
 			damagePercentage += accumulatedForce/damageResistance
 			print(name," is ", damagePercentage, "% damaged")
-			#apply_central_impulse(facingDirection*(accumulatedForce/damageResistance)*(damagePercentage/damageResistance))
 		elif isDashing:
-			#linear_damp = dashDamp
 			crashTexture.visible = true
 			sfx_clash.play()
 			crashTexture.scale = Vector3.ZERO
@@ -292,19 +219,6 @@ func _integrate_forces(state):
 		#print("Player 2 = ",  Global.cscore)
 		hasFallen = true
 		
-
-
-func _on_BashBot_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	pass#print("colided")
-
-
-func _on_BashBot_input_event(camera, event, position, normal, shape_idx):
-	print("colided with input")
-	pass # Replace with function body.
-
-
-func _on_BashBot_area_entered(area):
-	pass # Replace with function body.
 
 
 func _on_BashBot_body_entered(body):

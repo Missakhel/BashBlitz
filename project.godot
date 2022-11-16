@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="BashBlitz"
-run/main_scene="res://Scene/RivaZScene.tscn"
+run/main_scene="res://Scene/RivazScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
