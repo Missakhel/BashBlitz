@@ -45,8 +45,8 @@ var dashPercentage = 0
 
 var Id = 0
 var linear_velocity = Vector3.ZERO
-export var rebote = 1
-
+export var reboteEstatico = 1
+export var reboteDinamico = 1
 var frame = 1/60
 
 var isChargingDash = false
@@ -158,7 +158,8 @@ func _physics_process(_delta):
 			var thisClass = get_script()
 			if other is thisClass:
 				other.damagePercentage += linear_velocity.length()/damageResistance
-				other.linear_velocity += linear_velocity*other.damagePercentage
+				other.linear_velocity += linear_velocity*other.damagePercentage*reboteDinamico
+				
 				#print("choke"+String(Id))
 			linear_velocity = -linear_velocity.reflect(collicion.get_normal())
 			linear_velocity.y = 0
