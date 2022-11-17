@@ -12,18 +12,18 @@ onready var sfx_clash = get_node("/root/Arena/SFX_Clash")
 onready var sfx_fall = get_node("/root/Arena/SFX_Fall")
 onready var sfx_respawn = get_node("/root/Arena/SFX_Respawn")
 onready var world = get_node("/root/Arena/world")
-onready var isDashing = false
-
+onready var isDashing = false 
+const materials = [preload("res://Matirials/mat0.tres"),preload("res://Matirials/mat1.tres"),preload("res://Matirials/mat2.tres"),preload("res://Matirials/mat3.tres")]
 #Estas dos variables son necesarias para limitar la velocidad
-export var acceleration = 75 #75
+export var acceleration = 12.5 #75
 export var topSpeed = 25
 
-export var dashImpulse = 108
+export var dashImpulse = 100
 export var dashTime = 1.25
-export var damp = 1.0/64.0
+export var damp = 1.0/50.0
 
 #Estas dos son necesarias para el impulso del dash con respecto al daño
-export var damageResistance = 6.1
+export var damageResistance = 6
 export var damagePercentage = 0
 export var color : Color
 
@@ -45,11 +45,14 @@ var dashPercentage = 0
 
 var Id = 0
 var linear_velocity = Vector3.ZERO
-export var reboteEstatico = 1
-export var reboteDinamico = 1
+export var reboteEstatico = .5
+export var reboteDinamico = .025
 var frame = 1/60
 
 var isChargingDash = false
+
+var wasTouched = false
+var lastTouched = 0
 
 func _input(event):
 	#print(Id)
@@ -73,10 +76,10 @@ func _ready():
 	meshColor.albedo_color = color
 	arrow.set_surface_material(0,meshColor)
 	crashTexture.visible = false
-	#contact_monitor = true
-	#contacts_reported = 5
 	arrow.set_scale(Vector3(1,.25,1))
 	cursor.hide()
+	var mesh = get_node("MeshInstance")
+	mesh.set_surface_material(0,materials[Id])
 
 func chargingDash(_delta):
 	isDashing = false
@@ -85,12 +88,9 @@ func chargingDash(_delta):
 	dashPercentage = dashCharge / dashTime
 	arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 	
-	
-	
 func releaseDash():
 	isDashing = true
 	var playerPosition = global_transform.origin
-	
 	linear_velocity += (Vector3(direction.x,0,direction.y)*(dashPercentage*dashImpulse))
 	dashCharge = 0
 	arrow.set_scale(Vector3(1,.25,1))
@@ -98,13 +98,10 @@ func releaseDash():
 func moving(_delta):
 	var vel = sqrt(linear_velocity.x*linear_velocity.x+linear_velocity.z*linear_velocity.z)
 	if vel <= topSpeed:
-		
 		linear_velocity.x += Input.get_axis("move_left"+String(Id), "move_right"+String(Id))*acceleration
 		linear_velocity.z += Input.get_axis("move_down"+String(Id), "move_up"+String(Id))*acceleration
 			
 func run(_delta):
-	
-	
 	if isChargingDash:#Input.is_action_pressed("dash") or Input.is_action_pressed("pad_dash"):
 		chargingDash(_delta)
 	#elif Input.is_action_just_released("dash") or Input.is_action_just_released("pad_dash"):
@@ -130,9 +127,14 @@ func run(_delta):
 		linear_velocity.x = 0
 		linear_velocity.z = 0
 		damagePercentage = 0
-		#state.set_transform(spawnPoint)
 		sfx_respawn.play()
 		scale = Vector3(1,1,1)
+		if(wasTouched):
+			var score = get_node("/root/Arena/scoreBoard"+str(lastTouched))
+			score.addPoint()
+		wasTouched = false
+		var score = get_node("/root/Arena/scoreBoard"+str(Id))
+		score.setDamagePercentage(0)
 		world.respawn(Id)
 	
 	linear_velocity*=1.0-damp
@@ -156,10 +158,13 @@ func _physics_process(_delta):
 			
 			var other = collicion.get_collider()
 			var thisClass = get_script()
-			if other is thisClass:
+			if other is thisClass and isDashing:
+				other.wasTouched = true
+				other.lastTouched = Id
 				other.damagePercentage += linear_velocity.length()/damageResistance
 				other.linear_velocity += linear_velocity*other.damagePercentage*reboteDinamico
-				
+				var scoreBoard = get_node("/root/Arena/scoreBoard"+str(other.Id))
+				scoreBoard.setDamagePercentage(other.damagePercentage)
 				#print("choke"+String(Id))
 			linear_velocity = -linear_velocity.reflect(collicion.get_normal())
 			linear_velocity.y = 0
@@ -219,12 +224,14 @@ func _integrate_forces(state):
 		Global.cscore = 0
 		#print("Player 2 = ",  Global.cscore)
 		hasFallen = true
-		
-
 
 func _on_BashBot_body_entered(body):
-	var space_state = get_world().direct_space_state
-	var result = space_state.intersect_ray(global_transform.origin, global_transform.origin+linear_velocity.normalized()*100,[self])
-	if result.has("normal"):
-		linear_velocity = result["normal"]*rebote*linear_velocity.length()
+	pass
+	#return
+	#if(!isDashing):
+	#	return
+	#var space_state = get_world().direct_space_state
+	#var result = space_state.intersect_ray(global_transform.origin, global_transform.origin+linear_velocity.normalized()*100,[self])
+	#if result.has("normal"):
+	#	linear_velocity = result["normal"]*reboteEstatico*linear_velocity.length()
 	# Replace with function body.

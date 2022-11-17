@@ -39,8 +39,13 @@ func _ready():
 	print("world")
 	var conected = Input.get_connected_joypads()
 	var childs = get_children();
-	for i in range(num_players): #conected:
+	
+	for i in range(len(conected)):
+		var scoreBoard = get_node("/root/Arena/scoreBoard"+str(i))
 		var bot = BashBot.instance()
+		scoreBoard.visible = true
+		scoreBoard.setPlayerName(str(i))
+		
 		bot.Id = i
 		add_child(bot)
 		players.append(bot)
