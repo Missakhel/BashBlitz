@@ -72,8 +72,8 @@ rect_scale = Vector2( 2.5, 2.5 )
 columns = 2
 
 [node name="KeyPercentage" type="Label" parent="GridContainer3"]
-margin_right = 18.0
-margin_bottom = 32.0
+margin_right = 12.0
+margin_bottom = 21.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -88,9 +88,9 @@ uppercase = true
 script = ExtResource( 1 )
 
 [node name="KeySign" type="Label" parent="GridContainer3"]
-margin_left = 22.0
-margin_right = 41.0
-margin_bottom = 32.0
+margin_left = 16.0
+margin_right = 30.0
+margin_bottom = 21.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )

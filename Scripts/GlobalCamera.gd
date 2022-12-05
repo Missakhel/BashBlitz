@@ -6,7 +6,8 @@ extends Camera
 # var b = "text"
 export var minDistance = 100
 export var maxDistance = 200
-export var multiplier = .2
+export var minScreen = 100
+export var maxScreen = 200
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -33,5 +34,7 @@ func _process(delta):
 		farestDist = minDistance
 	if farestDist > maxDistance:
 		farestDist = maxDistance
-	transform.origin = Vector3(pos.x,farestDist*multiplier,pos.z)
+		
+	var percent = (farestDist-minDistance)/(maxDistance-minDistance)
+	transform.origin = Vector3(pos.x,minScreen+percent*(maxScreen-minScreen),pos.z)
 	pass

@@ -8,6 +8,8 @@ extends Control
 
 var score = 0
 
+export var color : Color
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#text.text = "a"
@@ -26,7 +28,13 @@ func addPoint():
 func setDamagePercentage(p):
 	var text = get_node("GridContainer3/KeyPercentage")
 	text.set_text(str(p))
-	
+	if(p<100):
+		text.modulate = lerp(Color.white,color,p/100)
+	elif(p<200):
+		text.modulate = lerp(color,Color.black,(p-100)/100)
+	else:
+		text.modulate = text.modulate
+	#text.modulate =  Color.white * (1 - p/100)#Color.white-(Color.white-color)*p/100
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

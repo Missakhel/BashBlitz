@@ -64,9 +64,6 @@ margin_top = -22.0
 margin_right = 1337.57
 rect_scale = Vector2( 1.5, 1.5 )
 columns = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Controller" type="Label" parent="GridContainer2"]
 margin_right = 226.0

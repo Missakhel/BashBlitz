@@ -13,7 +13,7 @@ onready var sfx_fall = get_node("/root/Arena/SFX_Fall")
 onready var sfx_respawn = get_node("/root/Arena/SFX_Respawn")
 onready var world = get_node("/root/Arena/world")
 onready var isDashing = false 
-const materials = [preload("res://Matirials/mat1.tres"),preload("res://Matirials/mat0.tres"),preload("res://Matirials/mat2.tres"),preload("res://Matirials/mat3.tres")]
+#const materials = [preload("res://Matirials/mat0.tres"),preload("res://Matirials/mat1.tres"),preload("res://Matirials/mat2.tres"),preload("res://Matirials/mat3.tres")]
 const arrowColors = [Color.red, Color.blue, Color.green, Color.yellow]
 #Estas dos variables son necesarias para limitar la velocidad
 export var acceleration = 12.5 #75
@@ -79,8 +79,9 @@ func _ready():
 	#crashTexture.visible = false
 	arrow.set_scale(Vector3(1,.25,1))
 	cursor.hide()
-	var mesh = get_node("MeshInstance")
-	mesh.set_surface_material(0,materials[Id])
+	#var mesh = get_node("MeshInstance")
+	#mesh.set_surface_material(0,materials[Id])
+	
 
 func chargingDash(_delta):
 	isDashing = false
@@ -162,14 +163,17 @@ func _physics_process(_delta):
 			if other is thisClass and isDashing:
 				other.wasTouched = true
 				other.lastTouched = Id
-				other.damagePercentage += linear_velocity.length()/damageResistance
+				other.damage(linear_velocity.length()/damageResistance)
 				other.linear_velocity += linear_velocity*other.damagePercentage*reboteDinamico
-				var scoreBoard = get_node("/root/Arena/scoreBoard"+str(other.Id))
-				scoreBoard.setDamagePercentage(other.damagePercentage)
 				#print("choke"+String(Id))
 			linear_velocity = -linear_velocity.reflect(collicion.get_normal())
 			linear_velocity.y = 0
-	
+
+func damage(n):
+	damagePercentage += n
+	var scoreBoard = get_node("/root/Arena/scoreBoard"+str(Id))
+	scoreBoard.setDamagePercentage(damagePercentage)
+
 func comment(collisionBashbot):
 	
 	if collisionBashbot.name == "BashBotController":
