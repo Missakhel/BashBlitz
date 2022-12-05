@@ -31,7 +31,7 @@ func setDamagePercentage(p):
 	if(p<100):
 		text.modulate = lerp(Color.white,color,p/100)
 	elif(p<200):
-		text.modulate = lerp(color,Color.black,(p-100)/100)
+		text.modulate = lerp(color,Color.black,(p-100)/200)
 	else:
 		text.modulate = text.modulate
 	#text.modulate =  Color.white * (1 - p/100)#Color.white-(Color.white-color)*p/100
