@@ -2,10 +2,10 @@ extends KinematicBody
 
 class_name BashBot
 
-onready var mesh = $MeshInstance
+onready var mesh = $polySurface7
 onready var cursor = $Cursor
-onready var arrow = $MeshInstance/Arrow
-onready var crashTexture = $MeshInstance/CrashTexture
+onready var arrow = $polySurface7/Arrow
+#onready var crashTexture = $MeshInstance/CrashTexture
 onready var camera = get_node("/root/Arena/GlobalCamera")
 onready var tuto = get_node("/root/Arena/TutorialHUD")
 onready var sfx_clash = get_node("/root/Arena/SFX_Clash")
@@ -13,7 +13,8 @@ onready var sfx_fall = get_node("/root/Arena/SFX_Fall")
 onready var sfx_respawn = get_node("/root/Arena/SFX_Respawn")
 onready var world = get_node("/root/Arena/world")
 onready var isDashing = false 
-const materials = [preload("res://Matirials/mat0.tres"),preload("res://Matirials/mat1.tres"),preload("res://Matirials/mat2.tres"),preload("res://Matirials/mat3.tres")]
+const materials = [preload("res://Matirials/mat1.tres"),preload("res://Matirials/mat0.tres"),preload("res://Matirials/mat2.tres"),preload("res://Matirials/mat3.tres")]
+const arrowColors = [Color.red, Color.blue, Color.green, Color.yellow]
 #Estas dos variables son necesarias para limitar la velocidad
 export var acceleration = 12.5 #75
 export var topSpeed = 25
@@ -73,9 +74,9 @@ func _ready():
 	#set_bounce(1)
 	#Estas líneas son necesarias para cambiar el color de la flecha del robot
 	var meshColor = SpatialMaterial.new()
-	meshColor.albedo_color = color
+	meshColor.albedo_color = arrowColors[Id]
 	arrow.set_surface_material(0,meshColor)
-	crashTexture.visible = false
+	#crashTexture.visible = false
 	arrow.set_scale(Vector3(1,.25,1))
 	cursor.hide()
 	var mesh = get_node("MeshInstance")
@@ -190,9 +191,9 @@ func comment(collisionBashbot):
 			damagePercentage += accumulatedForce/damageResistance
 			print(name," is ", damagePercentage, "% damaged")
 		elif isDashing:
-			crashTexture.visible = true
+			#crashTexture.visible = true
 			sfx_clash.play()
-			crashTexture.scale = Vector3.ZERO
+			#crashTexture.scale = Vector3.ZERO
 
 
 func _on_Area_body_exited(body):
