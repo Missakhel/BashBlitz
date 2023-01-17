@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Meshes/testCylinder.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Assets/Scripts/BashBot.gd" type="Script" id=2]
+
+
+[node name="Spatial" type="Spatial"]
+
+[node name="RigidBody" type="RigidBody" parent="."]
+script = ExtResource( 2 )
+
+[node name="testCylinder" type="MeshInstance" parent="RigidBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 73.432, 87.6354, 171.239 )
+mesh = ExtResource( 1 )
