@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/roomba_hammer2spp.fbx-956bb4f823e7f8b6f50a40a147bc6443.scn"
+path="res://.import/roomba_hammer2spp.fbx-19ab132120493c9f3654016b42475d2a.scn"
 
 [deps]
 
-source_file="res://Assets/Scenes/roomba_hammer2spp.fbx"
-dest_files=[ "res://.import/roomba_hammer2spp.fbx-956bb4f823e7f8b6f50a40a147bc6443.scn" ]
+source_file="res://Assets/Meshes/roomba_hammer2spp.fbx"
+dest_files=[ "res://.import/roomba_hammer2spp.fbx-19ab132120493c9f3654016b42475d2a.scn" ]
 
 [params]
 

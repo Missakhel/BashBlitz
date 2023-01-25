@@ -1,22 +1,21 @@
 [gd_scene load_steps=36 format=2]
 
-[ext_resource path="res://Characters/BashBotR.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Textures/WhatsApp Image 2022-03-24 at 6.47.59 PM.jpeg" type="Texture" id=2]
-[ext_resource path="res://Scripts/CScore.gd" type="Script" id=3]
-[ext_resource path="res://Scripts/KScore.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/ConPercentage.gd" type="Script" id=5]
-[ext_resource path="res://HUD/Epilogue-BlackItalic.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://HUD/Epilogue-BoldItalic.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://Scripts/BashBotController.gd" type="Script" id=8]
-[ext_resource path="res://Scripts/KeyPercentage.gd" type="Script" id=9]
-[ext_resource path="res://Textures/Tutorial.png" type="Texture" id=10]
-[ext_resource path="res://Audio/Flying.mp3" type="AudioStream" id=11]
-[ext_resource path="res://Audio/Action Misc 2.wav" type="AudioStream" id=12]
-[ext_resource path="res://Audio/Long Slide Down.wav" type="AudioStream" id=13]
-[ext_resource path="res://Audio/Collect 4.wav" type="AudioStream" id=14]
-[ext_resource path="res://Meshes/Corner.obj" type="ArrayMesh" id=15]
-[ext_resource path="res://Meshes/blocker.obj" type="ArrayMesh" id=16]
-
+[ext_resource path="res://Assets/Scenes/BashBotR.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Textures/WhatsApp Image 2022-03-24 at 6.47.59 PM.jpeg" type="Texture" id=2]
+[ext_resource path="res://Assets/Scripts/CScore.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Scripts/KScore.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Scripts/ConPercentage.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Fonts/Epilogue-BlackItalic.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Assets/Fonts/Epilogue-BoldItalic.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Assets/Scripts/BashBotController.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Scripts/KeyPercentage.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Textures/Tutorial.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Audio/Flying.mp3" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Audio/Action Misc 2.wav" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Audio/Long Slide Down.wav" type="AudioStream" id=13]
+[ext_resource path="res://Assets/Audio/Collect 4.wav" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Meshes/Corner.obj" type="ArrayMesh" id=15]
+[ext_resource path="res://Assets/Meshes/blocker.obj" type="ArrayMesh" id=16]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 19.5, 19.5 )
@@ -211,7 +210,11 @@ color = Color( 0, 0, 1, 1 )
 [node name="BashBotController" parent="." instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 13, 0.163, 0 )
 script = ExtResource( 8 )
+movementDamp = 7.5
 dashImpulse = 45
+dampMultiplier = 10
+dashDamp = 15
+axisDecceleration = 40
 color = Color( 0, 0.882353, 0, 1 )
 
 [node name="CSGBox3" type="CSGBox" parent="."]
@@ -418,9 +421,6 @@ uppercase = true
 margin_right = 40.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.8, 0.8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="TutorialHUD"]
 anchor_right = 1.0

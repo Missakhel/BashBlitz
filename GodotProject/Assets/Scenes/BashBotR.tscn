@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://Textures/testCylinder.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/BashBot.gd" type="Script" id=2]
-[ext_resource path="res://Scripts/LocalCamera.gd" type="Script" id=3]
-[ext_resource path="res://Textures/—Pngtree—explosion spark effect_5935391.png" type="Texture" id=4]
-[ext_resource path="res://Meshes/Roomba_01_Hammer.obj" type="ArrayMesh" id=5]
-[ext_resource path="res://Textures/BASH BLITZ_HAMMER_TEXT/HammerBot_Body_1.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Textures/testCylinder.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Scripts/BashBot.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Scripts/LocalCamera.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Textures/—Pngtree—explosion spark effect_5935391.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Meshes/Roomba_01_Hammer.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Assets/Textures/BASH BLITZ_HAMMER_TEXT/HammerBot_Body_1.png" type="Texture" id=6]
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0, 1, 0.027451, 1 )

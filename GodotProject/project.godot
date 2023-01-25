@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="BashBlitz"
-run/main_scene="res://Scene/RivazScene.tscn"
+run/main_scene="res://Assets/Scenes/MainMenu.tscn"
 config/icon="res://Assets/Icons/icon.png"
 config/windows_native_icon="res://Assets/Icons/icon.ico"
 
