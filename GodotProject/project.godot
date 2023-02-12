@@ -28,7 +28,7 @@ config/windows_native_icon="res://Assets/Icons/icon.ico"
 [autoload]
 
 Global="*res://Assets/Scripts/Global.gd"
-SceneTransition="*res://Menus/SceneTransition.tscn"
+AudioManager="*res://Assets/Scripts/AudioManager.gd"
 
 [display]
 
