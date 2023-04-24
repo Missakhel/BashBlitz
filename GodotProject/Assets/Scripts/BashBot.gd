@@ -2,6 +2,10 @@ extends KinematicBody
 
 class_name BashBot
 
+onready var Crash_Particles = $CrashParticles
+onready var Charge_Particles = $ChargeParticles
+onready var Trail_Particles = $TrailParticles
+
 onready var mesh = $polySurface7
 onready var cursor = $Cursor
 onready var arrow = $polySurface7/Arrow
@@ -84,6 +88,7 @@ func _ready():
 	
 
 func chargingDash(_delta):
+	Charge_Particles.visible = true
 	isDashing = false
 	if dashCharge <= dashTime:
 		dashCharge += _delta
@@ -91,6 +96,7 @@ func chargingDash(_delta):
 	arrow.set_scale(Vector3(1,dashPercentage+.25,1))
 	
 func releaseDash():
+	Charge_Particles.visible = false
 	isDashing = true
 	var playerPosition = global_transform.origin
 	linear_velocity += (Vector3(direction.x,0,direction.y)*(dashPercentage*dashImpulse))
@@ -177,6 +183,9 @@ func damage(n):
 func comment(collisionBashbot):
 	
 	if collisionBashbot.name == "BashBotController":
+		
+		Crash_Particles.emitting = true
+		
 		var accumulatedForce = 0
 		if collisionBashbot.linear_velocity.x < 0:
 			accumulatedForce += collisionBashbot.linear_velocity.x*-1
@@ -207,12 +216,14 @@ func _on_Area_body_exited(body):
 		#print(self.get_translation())
 		sfx_fall.play()
 		hasFallen = true
+		Trail_Particles.visible = true
 		Global.cscore += 1
 
 func _integrate_forces(state):
 	if canRespawn: 
 		canRespawn = false
 		hasFallen = false
+		Trail_Particles.visible = false
 		linear_velocity.x = 0
 		linear_velocity.z = 0
 		damagePercentage = 0
