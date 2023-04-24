@@ -128,8 +128,10 @@ func run(_delta):
 		tuto.visible = false
 		
 	if hasFallen and scale > Vector3.ZERO:
+		Trail_Particles.emitting = true
 		scale -= Vector3(1,1,1)*_delta
 	elif scale < Vector3.ZERO:
+		
 		canRespawn = false
 		hasFallen = false
 		linear_velocity.x = 0
@@ -176,6 +178,7 @@ func _physics_process(_delta):
 			linear_velocity.y = 0
 
 func damage(n):
+	Crash_Particles.emitting = true
 	damagePercentage += n
 	var scoreBoard = get_node("/root/Arena/scoreBoard"+str(Id))
 	scoreBoard.setDamagePercentage(damagePercentage)
@@ -184,7 +187,7 @@ func comment(collisionBashbot):
 	
 	if collisionBashbot.name == "BashBotController":
 		
-		Crash_Particles.emitting = true
+		
 		
 		var accumulatedForce = 0
 		if collisionBashbot.linear_velocity.x < 0:
@@ -216,14 +219,14 @@ func _on_Area_body_exited(body):
 		#print(self.get_translation())
 		sfx_fall.play()
 		hasFallen = true
-		Trail_Particles.visible = true
+		
 		Global.cscore += 1
 
 func _integrate_forces(state):
 	if canRespawn: 
 		canRespawn = false
 		hasFallen = false
-		Trail_Particles.visible = false
+		
 		linear_velocity.x = 0
 		linear_velocity.z = 0
 		damagePercentage = 0

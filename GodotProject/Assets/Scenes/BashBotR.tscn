@@ -276,9 +276,11 @@ process_material = SubResource( 23 )
 draw_pass_1 = SubResource( 24 )
 
 [node name="TrailParticles" type="Particles" parent="."]
-visible = false
 material_override = SubResource( 17 )
 cast_shadow = 0
+emitting = false
+lifetime = 0.75
+one_shot = true
 local_coords = false
 process_material = SubResource( 20 )
 draw_pass_1 = SubResource( 21 )
